@@ -17,6 +17,28 @@ void bubbleSort(int array[], int len)
     }
 }
 
+void quick_sort(int array[], int left, int right)
+{
+    if(left >= right)
+        return;
+    int low = left;
+    int high = right;
+    int key = array[low];
+
+    while(low<high)
+    {
+        while(low<high && array[high]>key)
+            --high;
+        array[low] = array[high]; 
+        while(low<high && array[low]<=key)
+            ++low; 
+        array[high] = array[low];
+    }
+    array[high] = key;
+    quick_sort(array, 0, low-1);
+    quick_sort(array, low+1, right);  
+}
+
 int main(int argc, char** agrv)
 {
     int array[] = {100,88,120,66,180,68,168,888,666,999};
