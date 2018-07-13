@@ -42,7 +42,8 @@ void quick_sort(int array[], int left, int right)
 int main(int argc, char** agrv)
 {
     int array[] = {100,88,120,66,180,68,168,888,666,999};
-    bubbleSort(array,sizeof(array)/sizeof(int));
+//    bubbleSort(array,sizeof(array)/sizeof(int));
+    quick_sort(array, 0 , sizeof(array)/sizeof(int) - 1);
 	for(int i=0; i<10; i++)
 		cout<<array[i]<<" ";
 	cout << endl;
