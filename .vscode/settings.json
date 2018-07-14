@@ -2,6 +2,7 @@
     "files.associations": {
         "utility": "cpp",
         "ios": "cpp",
-        "xiosbase": "cpp"
+        "xiosbase": "cpp",
+        "limits": "cpp"
     }
 }
