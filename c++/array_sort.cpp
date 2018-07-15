@@ -55,12 +55,28 @@ void select_sort(int array[], int len)
     }
 }
 
+void insert_sort(int array[], int len)
+{
+    for(int i=0; i<len; i++)
+    {
+        int key = array[i];
+        int j = i-1;
+        while(j>=0 && array[j]>key)
+        {
+            array[j+1] = array[j];
+            --j;
+        }
+        array[j+1] = key;
+    }
+}
+
 int main(int argc, char** agrv)
 {
     int array[] = {100,88,120,66,180,68,168,888,666,999};
 //    bubbleSort(array,sizeof(array)/sizeof(int));
 //    quick_sort(array, 0 , sizeof(array)/sizeof(int) - 1);
-    select_sort(array, sizeof(array)/sizeof(int));
+//    select_sort(array, sizeof(array)/sizeof(int));
+    insert_sort(array, sizeof(array)/sizeof(int));
 	for(int i=0; i<10; i++)
 		cout<<array[i]<<" ";
 	cout << endl;
