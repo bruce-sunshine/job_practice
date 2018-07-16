@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 
 void bubbleSort(int array[], int len)
@@ -70,15 +71,54 @@ void insert_sort(int array[], int len)
     }
 }
 
+
+void merge(vector<int>& a, int left_a, int right_a, int left_b, int right_b)
+{
+    int n = (right_a - left_a + 1) + (right_b - left_b + 1);
+    vector<int> c(n);
+    int i = left_a; int j = left_b;
+    int k = 0;
+    while(i <= right_a && j <= right_b)
+    {
+        if(a[i] < a[j])
+        {
+            c[k++] = a[i++];
+        }
+        else
+        {
+            c[k++] = a[j++];
+        }
+    }
+    while(i <= right_a)
+            c[k++] = a[i++];
+    while(j <= right_b)
+            c[k++] = a[j++];
+    for(int m=0; m<n; m++)
+        a[left_a + m] = c[m];
+}
+
+void merge_sort(vector<int>& array, int start, int end)
+{
+	if (start < end)
+	{
+		int middle = (end + start) / 2;
+		merge_sort(array, start, middle);
+		merge_sort(array, middle + 1, end);
+		merge(array, start, middle, middle + 1, end);
+	}
+}
+
 int main(int argc, char** agrv)
 {
     int array[] = {100,88,120,66,180,68,168,888,666,999};
+    vector<int> array_a{100,88,120,66,180,68,168,888,666,999};
 //    bubbleSort(array,sizeof(array)/sizeof(int));
 //    quick_sort(array, 0 , sizeof(array)/sizeof(int) - 1);
 //    select_sort(array, sizeof(array)/sizeof(int));
-    insert_sort(array, sizeof(array)/sizeof(int));
+//    insert_sort(array, sizeof(array)/sizeof(int));
+    merge_sort(array_a, 0 , sizeof(array)/sizeof(int) - 1);
 	for(int i=0; i<10; i++)
-		cout<<array[i]<<" ";
+		cout<<array_a[i]<<" ";
 	cout << endl;
 	system("pause");
 }
