@@ -36,11 +36,26 @@ def select_sort(array):
 def insert_sort(array):
     for i in range(1, len(array)):
         key = array[i]
-        j = i-1        
+        j = i - 1        
         while j >= 0 and array[j] > key:
             array[j+1] = array[j]
             j -= 1
         array[j+1] = key    
+
+
+def shell_sort(array):
+    step = len(array) / 2
+    while step > 0:
+        for i in range(step, len(array)):
+            key = array[i]
+            j = i
+            while j > 0 and key < array[j - step]:
+                array[j] = array[j-step]
+                j -= step 
+            array[j] = key
+        step = step / 2
+        
+
 
 def merge(a, b):
     c=[]
@@ -74,6 +89,7 @@ if __name__ == '__main__':
 #    quick_sort(array, 0, len(array)-1 )
 #    select_sort(array)
 #    insert_sort(array)
-    print merge_sort(array)
- #   print array
+#    print merge_sort(array)
+    shell_sort(array)
+    print array
 

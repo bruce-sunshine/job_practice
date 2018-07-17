@@ -71,8 +71,27 @@ void insert_sort(int array[], int len)
     }
 }
 
+void shell_sort(int array[], int len)
+{
+    int step = len / 2;
+    while(step > 0)
+    {
+        for(int i=step; i<len; i++)
+        {
+            int key = array[i];
+            int j = i;
+            while(j>0 && key < array[j-step])
+            {
+                array[j] = array[j-step];
+                j -= step;
+            }
+            array[j] = key;
+        }
+        step /= 2;
+    }
+}
 
-void merge(vector<int>& a, int left_a, int right_a, int left_b, int right_b)
+void merge(int a[], int left_a, int right_a, int left_b, int right_b)
 {
     int n = (right_a - left_a + 1) + (right_b - left_b + 1);
     vector<int> c(n);
@@ -97,7 +116,7 @@ void merge(vector<int>& a, int left_a, int right_a, int left_b, int right_b)
         a[left_a + m] = c[m];
 }
 
-void merge_sort(vector<int>& array, int start, int end)
+void merge_sort(int array[], int start, int end)
 {
 	if (start < end)
 	{
@@ -111,14 +130,15 @@ void merge_sort(vector<int>& array, int start, int end)
 int main(int argc, char** agrv)
 {
     int array[] = {100,88,120,66,180,68,168,888,666,999};
-    vector<int> array_a{100,88,120,66,180,68,168,888,666,999};
+//    vector<int> array_a{100,88,120,66,180,68,168,888,666,999};
 //    bubbleSort(array,sizeof(array)/sizeof(int));
 //    quick_sort(array, 0 , sizeof(array)/sizeof(int) - 1);
 //    select_sort(array, sizeof(array)/sizeof(int));
 //    insert_sort(array, sizeof(array)/sizeof(int));
-    merge_sort(array_a, 0 , sizeof(array)/sizeof(int) - 1);
-	for(int i=0; i<10; i++)
-		cout<<array_a[i]<<" ";
+//    merge_sort(array, 0 , sizeof(array)/sizeof(int) - 1);
+    shell_sort(array,sizeof(array)/sizeof(int));
+	for(int i=0; i<sizeof(array)/sizeof(int); i++)
+		cout<<array<<" ";
 	cout << endl;
 	system("pause");
 }
