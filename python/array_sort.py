@@ -83,6 +83,29 @@ def merge_sort(array):
     right = merge_sort(array[middle:])
     return merge(left, right)
 
+def max_Heapify(array, i, N):
+    child = 2 * i + 1 
+    tmp = array[i]
+    while child < N:
+        if child < N-1 and array[child] < array[child+1]:
+            child += 1
+        if tmp < array[child]:
+            array[i] = array[child]
+            i = child
+        else:
+            break
+        child = child * 2 + 1
+    array[i] = tmp
+
+def heap_sort(array):
+    N = len(array)
+    for i in range((N-2) // 2, -1, -1):
+        max_Heapify(array, i, N)
+    for i in range(N-1, 0, -1):
+        array[0], array[i] = array[i], array[0]
+        max_Heapify(array, 0, i)
+
+
 if __name__ == '__main__':
     array = [100,88,120,66,180,68,168,888,666,999]
 #    print bubbleSort(array)
@@ -90,6 +113,7 @@ if __name__ == '__main__':
 #    select_sort(array)
 #    insert_sort(array)
 #    print merge_sort(array)
-    shell_sort(array)
+#    shell_sort(array)
+    heap_sort(array)
     print array
 
