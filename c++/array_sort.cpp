@@ -127,6 +127,41 @@ void merge_sort(int array[], int start, int end)
 	}
 }
 
+void max_Heapify(int array[], int i, int N)
+{
+    int child = 2 * i + 1;
+    int tmp = array[i];
+    while(child<N)
+    {
+        if(child < N-1 && array[child] < array[child+1])
+            child += 1;
+        if(tmp < array[child])
+        {
+            array[i] = array[child];
+            i = child;
+        }
+        else
+            break;
+        child = child*2 + 1;
+    }
+    array[i] = tmp;
+}
+
+void heap_sort(int array[], int len)
+{
+    for(int i=(len-2)/2; i>=0; i--) //建堆从最后一个非叶子结点开始
+    {
+        max_Heapify(array, i, len); 
+    }
+    for(int j=len-1; j>0; j--)
+    {
+        int tmp = array[j];
+        array[j] = array[0];
+        array[0] = tmp;
+        max_Heapify(array, 0, j);
+    }
+}
+
 int main(int argc, char** agrv)
 {
     int array[] = {100,88,120,66,180,68,168,888,666,999};
@@ -136,9 +171,10 @@ int main(int argc, char** agrv)
 //    select_sort(array, sizeof(array)/sizeof(int));
 //    insert_sort(array, sizeof(array)/sizeof(int));
 //    merge_sort(array, 0 , sizeof(array)/sizeof(int) - 1);
-    shell_sort(array,sizeof(array)/sizeof(int));
+//    shell_sort(array,sizeof(array)/sizeof(int));
+    heap_sort(array, sizeof(array)/sizeof(int));
 	for(int i=0; i<sizeof(array)/sizeof(int); i++)
-		cout<<array<<" ";
+		cout<<array[i]<<" ";
 	cout << endl;
 	system("pause");
 }
