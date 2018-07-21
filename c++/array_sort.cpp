@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <math.h>
 using namespace std;
 
 void bubbleSort(int array[], int len)
@@ -162,6 +163,48 @@ void heap_sort(int array[], int len)
     }
 }
 
+int maxbit(int array[], int len)
+{
+    int bit = 1;
+    int radix = 10;
+    for(int i=0; i<len; i++)
+    {
+        while(array[i] >= radix)
+        {
+            radix *= 10;
+            ++bit;
+        }
+    }
+    return bit;
+}
+
+void bucket_sort(int array[], int len)
+{
+    int radix = 10;
+    int K =maxbit(array,len);  
+    vector<vector<int>> bucket(radix);
+    for(int i=1; i<=K; i++)
+    {
+        for(int j=0; j<len; j++)
+        {
+            int count = int(array[j] % (int)pow(radix,i) / (int)pow(radix,i-1)) ;
+            bucket[count].push_back(array[j]);
+        }
+        memset(array,0,sizeof(array)/sizeof(int));
+        int index=0;
+        for(int m=0; m<radix; m++)
+        {
+            for(vector<int>::iterator iter=bucket[m].begin(); iter!=bucket[m].end(); iter++)
+            {
+                array[index++] = *iter;
+            }
+        }
+		for(int n=0; n<radix; n++)
+			bucket[n].clear();
+
+    }
+}
+
 int main(int argc, char** agrv)
 {
     int array[] = {100,88,120,66,180,68,168,888,666,999};
@@ -172,7 +215,8 @@ int main(int argc, char** agrv)
 //    insert_sort(array, sizeof(array)/sizeof(int));
 //    merge_sort(array, 0 , sizeof(array)/sizeof(int) - 1);
 //    shell_sort(array,sizeof(array)/sizeof(int));
-    heap_sort(array, sizeof(array)/sizeof(int));
+//    heap_sort(array, sizeof(array)/sizeof(int));
+    bucket_sort(array,sizeof(array)/sizeof(int));
 	for(int i=0; i<sizeof(array)/sizeof(int); i++)
 		cout<<array[i]<<" ";
 	cout << endl;

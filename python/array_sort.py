@@ -1,5 +1,6 @@
 #!/usr/bin/python
 #-*- coding:utf-8 -*-
+import math
 
 def bubbleSort(array):
     for i in range(len(array)-1):
@@ -106,6 +107,21 @@ def heap_sort(array):
         max_Heapify(array, 0, i)
 
 
+def bucket_sort(array, radix=10): 
+    """radix 为基数"""
+    K = int(math.ceil(math.log(max(array),radix)))
+    bucket = [[] for i in range(radix)] 
+    ''' 数字都是0~9， 建立10个桶'''
+    for i in range(1, K+1): 
+        '''从个位到最高位'''
+        for val in array:
+            bucket[int(val%(radix**i)/(radix**(i-1)))].append(val)
+        del array[:]
+        for each in bucket:
+            array.extend(each)
+        bucket = [[] for i in range(radix)]
+
+
 if __name__ == '__main__':
     array = [100,88,120,66,180,68,168,888,666,999]
 #    print bubbleSort(array)
@@ -114,6 +130,7 @@ if __name__ == '__main__':
 #    insert_sort(array)
 #    print merge_sort(array)
 #    shell_sort(array)
-    heap_sort(array)
+#    heap_sort(array)
+    bucket_sort(array)
     print array
 

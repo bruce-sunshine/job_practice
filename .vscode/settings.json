@@ -4,6 +4,8 @@
         "ios": "cpp",
         "xiosbase": "cpp",
         "limits": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "system_error": "cpp",
+        "xstring": "cpp"
     }
 }
