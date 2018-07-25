@@ -36,7 +36,34 @@ def isDeformation2(str1, str2):
                 return False
     return True
 
+#字符串中数字子串的求和
+def numSum(str):
+    if str == None or len(str) == 0:
+        return 0
+    ''' res为累加和，num为当前收集到的数字，posi表示num的正负性'''
+    res = 0
+    num = 0
+    cur = 0
+    posi = True
+    for i in range(len(str)):
+        cur = ord(str[i]) - ord('0')
+        if cur < 0 or cur > 9:
+            res += num
+            num = 0
+            if str[i] == '-':
+                if i - 1 >= 0  and str[i-1] == '-':
+                    posi = not posi
+                else:
+                    posi = False
+            else:
+                posi = True
+        else:
+            num = num * 10 + cur if posi else -cur
+    '''最后一个数字字符要累加进去'''
+    res += num
+    return res
 
 if __name__ == '__main__':
     print(isDeformation1("132", "123"))
     print(isDeformation2("abccd", "ccdba"))
+    print(numSum("123ADB21--10A12F2--20C-20"))
