@@ -6,6 +6,8 @@
         "limits": "cpp",
         "vector": "cpp",
         "system_error": "cpp",
-        "xstring": "cpp"
+        "xstring": "cpp",
+        "iostream": "cpp",
+        "ostream": "cpp"
     }
 }
