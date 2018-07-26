@@ -52,18 +52,18 @@ def numSum(str):
             num = 0
             if str[i] == '-':
                 if i - 1 >= 0  and str[i-1] == '-':
-                    posi = not posi
+                    posi = True
                 else:
                     posi = False
             else:
                 posi = True
         else:
-            num = num * 10 + cur if posi else -cur
+            num = num * 10 + (cur if posi else -cur)    #note here, python2.7 must add () here, otherwise it went wrong
     '''最后一个数字字符要累加进去'''
     res += num
     return res
 
 if __name__ == '__main__':
-    print(isDeformation1("132", "123"))
-    print(isDeformation2("abccd", "ccdba"))
-    print(numSum("123ADB21--10A12F2--20C-20"))
+#    print(isDeformation1("132", "123"))
+#    print(isDeformation2("abccd", "ccdba"))
+    print(numSum("123BB---58A33"))
