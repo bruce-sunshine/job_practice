@@ -81,6 +81,39 @@ string removeKZore(string str, int K)
     return new_str;
 }
 
+string removeKZore_1(string str, int K)
+{
+    if(str.empty() || K < 1)
+        return str;
+    int count =0;
+	int start = -1;
+    for(int i = 0; i < str.size(); i++)
+    {
+        if(str[i] == '0')
+        {
+            ++count;
+			start = (start == -1 ? i : start);
+        }
+        else
+        {
+			if (count == K)
+			{
+				str.erase(str.begin() + start, str.begin() + start + K);
+				if (i < str.size()) //str.erase 后str的len已变，i的值需要重新赋值为0
+					i = 0;
+			}
+			count = 0;
+			start = -1;
+        }
+    }
+
+	if (count == K)
+	{
+		str.erase(str.begin() + start, str.begin() + start + K);
+	}
+	return str;
+}
+
 int main()
 {
     // string str1 = "abccde";
