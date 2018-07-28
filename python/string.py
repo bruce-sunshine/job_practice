@@ -63,7 +63,37 @@ def numSum(str):
     res += num
     return res
 
+#去掉字符串中连续出现的K个0的子串
+def removeKZores(str, k):
+    if str == None or k < 1:
+        return str
+    start = -1
+    count = 0
+    str1 = list(str)    #python里的字符串是不可变的
+    for i in range(len(str1)):
+        if str[i] == '0':
+            if start == -1:
+                start = i
+            count += 1
+        else:
+            if count == k:
+                while count > 0:
+                    str1[start] = ''
+                    start += 1
+                    count -= 1
+            start = -1
+            count = 0
+    if count == k:
+        while count > 0:
+            str1[start] = ''
+            start += 1
+            count -= 1
+    return ''.join(str1)
+
+
+
 if __name__ == '__main__':
 #    print(isDeformation1("132", "123"))
 #    print(isDeformation2("abccd", "ccdba"))
-    print(numSum("123BB---58A33"))
+#    print(numSum("123BB---58A33"))
+    print(removeKZores("000ABC000a000ABC",3))

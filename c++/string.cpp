@@ -4,6 +4,7 @@
 #include <map>
 using namespace std;
 
+//判断两个字符串是否为变形词
 bool isDeformation(string str1, string str2)
 {
     if(str1.empty() || str2.empty() || str1.size() != str2.size())
@@ -22,6 +23,7 @@ bool isDeformation(string str1, string str2)
     return true;
 }
 
+//字符串中数字子串的求和
 int numSum(string str)
 {
     if(str.empty() || str.size() == 0)
@@ -54,13 +56,37 @@ int numSum(string str)
     return res;
 }
 
+//去掉字符串中连续出现的K个0的子串
+string removeKZore(string str, int K)
+{
+    if(str.empty() || K < 1)
+        return str;
+    int count =0;
+    string new_str;
+    for(int i = 0; i < str.size(); i++)
+    {
+        if(str[i] == '0')
+        {
+            ++count;
+        }
+        else
+        {
+            if(count != K)
+                new_str += str.substr(i - count, count+1);
+            else
+                new_str += str[i];
+            count = 0;
+        }
+    }
+    return new_str;
+}
 
 int main()
 {
     // string str1 = "abccde";
     // string str2 = "ccedba";
     // cout << "str1 and str2 is Deformation ? " << (isDeformation(str1, str2)? "true" : "false") << endl;
-    string str = "123BB-58A33";
-    cout << "str numSum is " << numSum(str) <<endl;
+    string str=removeKZore("000ABC000a000ABC",3);
+    cout << "str is " << str <<endl;
     system("pause");
 }
