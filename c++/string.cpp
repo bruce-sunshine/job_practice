@@ -114,6 +114,18 @@ string removeKZore_1(string str, int K)
 	return str;
 }
 
+//判断两个字符串是否互为旋转词
+bool isRotation(string str1, string str2)
+{
+    if(str1.empty() || str2.empty() || str1.size() != str2.size())
+        return false;
+    string str3 = str1 + str1;
+    return str3.find(str2) == string::npos ? false : true;   
+}
+//利用KMP算法匹配
+
+
+
 int main()
 {
     // string str1 = "abccde";

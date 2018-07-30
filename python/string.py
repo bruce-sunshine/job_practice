@@ -90,10 +90,63 @@ def removeKZores(str, k):
             count -= 1
     return ''.join(str1)
 
+#判断两个字符串是否互为旋转词
+def is_Rotation(str1, str2):
+    if str1 == None or str2 == None or len(str1) != len(str2):
+        return False
+    str3 = str1 + str1
+    if str2 in str3:
+        return True
+    else: 
+        return False
 
+#利用KMP算法匹配
+def is_Rotation_KMP(str1, str2):
+    def KMP(str1, str2):
+        if str1 == None or str2 == None or len(str2) == 1 or len(str1) < len(str2):
+            return False
+        next = getNextArray(str2)
+        si = 0 
+        mi = 0
+        while si < len(str1) and mi < len(str2):
+            if str1[si] == str2[mi]:
+                si += 1
+                mi += 1
+            elif next[mi] == -1:
+                si += 1
+            else:
+                mi = next[mi]
+        return True if mi == len(str2) else False
+
+    def getNextArray(str1):
+        if len(str1) == 1:
+            return [-1]
+        next = [0 for i in range(len(str1))]
+        next[0] = -1
+        next[1] = 0
+        pos = 2
+        cn = 0
+        while pos < len(str1):
+            if str1[pos-1] == str1[cn]:
+                next[pos] = cn + 1
+                pos += 1
+                cn += 1
+            elif cn > 0:
+                cn = next[cn]
+            else:
+                next[pos] = 0
+                pos += 1
+        return next
+
+    if str1 == None or str2 == None or len(str1) != len(str2):
+        return False
+    str3 = str1 * 2
+    return KMP(str3, str2)
 
 if __name__ == '__main__':
 #    print(isDeformation1("132", "123"))
 #    print(isDeformation2("abccd", "ccdba"))
 #    print(numSum("123BB---58A33"))
-    print(removeKZores("000ABC000a000ABC",3))
+#    print(removeKZores("000ABC000a000ABC",3))
+    print(is_Rotation("abcd", "cdab"))
+    print(is_Rotation_KMP("abcd", "cdab"))
