@@ -115,7 +115,7 @@ string removeKZore_1(string str, int K)
 }
 
 //判断两个字符串是否互为旋转词
-bool isRotation(string str1, string str2)
+bool is_Rotation(string str1, string str2)
 {
     if(str1.empty() || str2.empty() || str1.size() != str2.size())
         return false;
@@ -123,15 +123,71 @@ bool isRotation(string str1, string str2)
     return str3.find(str2) == string::npos ? false : true;   
 }
 //利用KMP算法匹配
+vector<int> getNextArray(string str)
+{
+    if(str.size() == 1)
+        return vector<int> {-1};
+    
+    vector<int> next = vector<int>(str.size());
+    next[0] = -1;
+    next[1] = 0;
+    int pos = 2;
+    int cn = 0;
+    while(pos < next.size())
+    {
+        if(str[pos -1] == str[cn])
+        {
+            next[pos++] = ++cn;
+        }
+        else if(cn > 0){
+            cn = next[cn];
+        }else{
+            next[pos++] = 0;
+        }
+    }
+    return next;
+}
 
+int KMP(string str1, string str2)
+{
+    if(str1.size() < str2.size())
+        return -1;
+    int si = 0;
+    int mi = 0;
+    vector<int> next = getNextArray(str2);
+    while(si < str1.size() && mi < str2.size())
+    {
+        if(str1[si] == str2[mi])
+        {
+            si++;
+            mi++;
+        }
+        else if(next[mi] == -1){
+            si++;
+        }else{
+            mi = next[mi];
+        }
+    }
+    return mi == str2.size() ? si - mi : -1;
+}
 
+bool is_Rotation_KMP(string str1, string str2)
+{
+    if(str1.empty() || str2.empty() || str1.size() != str2.size())
+        return false;
+    string str3 = str1 + str1;
+    return KMP(str3, str2) != -1;
+}
 
 int main()
 {
     // string str1 = "abccde";
     // string str2 = "ccedba";
     // cout << "str1 and str2 is Deformation ? " << (isDeformation(str1, str2)? "true" : "false") << endl;
-    string str=removeKZore("000ABC000a000ABC",3);
-    cout << "str is " << str <<endl;
+ //   string str=removeKZore("000ABC000a000ABC",3);
+ //   cout << "str is " << str <<endl;
+    string str1 = "apple";
+    string str2 = "leapp";
+    cout << "str1 and str2 is_Rotation_KMP ? " << is_Rotation_KMP(str1, str2) << endl;
     system("pause");
 }
