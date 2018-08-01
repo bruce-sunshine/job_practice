@@ -179,15 +179,58 @@ bool is_Rotation_KMP(string str1, string str2)
     return KMP(str3, str2) != -1;
 }
 
+bool isValid(string str)
+{
+    if(str[0] != '-' && (str[0] < '0' || str[0] > '9'))
+        return false;
+    if(str[0] == '-' && (str.size() == 1 || str[1] =='0'))
+        return false;
+    if(str[0] == '0' && str.size() > 1)
+        return false;
+    for(int i = 1; i < str.size(); i++)
+        if(str[i] < '0' || str[i] > '9')
+            return false;
+    return true;
+}
+
+int convert(string str)
+{
+    if(str.empty())
+        return 0;
+    if(!isValid(str))
+        return 0;
+
+    bool posi;
+    if(str[0] == '-')
+        posi = false;
+    else
+        posi = true;
+    int cur = 0;
+    int res = 0;
+    int minq = (-1 << 31) / 10; //python2.7 和 C++表现不一致
+    int minr = (-1 << 31) % 10;
+    for(int i = (posi ? 0 : 1); i < str.size(); i++)
+    {
+        cur = '0' - str[i];
+        if(res < minq || (res == minq && cur < minr))
+            return 0;
+        res = res * 10 + cur;
+    }
+    if(posi && res == (-1 << 31))
+        return 0;
+    
+     return posi ? -res : res;
+}
+
 int main()
 {
-    // string str1 = "abccde";
-    // string str2 = "ccedba";
+    string str = "2147483647";
+    // string str1 = "apple";
+    // string str2 = "leapp";
     // cout << "str1 and str2 is Deformation ? " << (isDeformation(str1, str2)? "true" : "false") << endl;
- //   string str=removeKZore("000ABC000a000ABC",3);
- //   cout << "str is " << str <<endl;
-    string str1 = "apple";
-    string str2 = "leapp";
-    cout << "str1 and str2 is_Rotation_KMP ? " << is_Rotation_KMP(str1, str2) << endl;
+    // string str=removeKZore("000ABC000a000ABC",3);
+    // cout << "str is " << str <<endl;
+    // cout << "str1 and str2 is_Rotation_KMP ? " << is_Rotation_KMP(str1, str2) << endl;
+    cout << str << " convert str to integrate, "  << convert(str) << endl;
     system("pause");
 }

@@ -143,10 +143,53 @@ def is_Rotation_KMP(str1, str2):
     str3 = str1 * 2
     return KMP(str3, str2)
 
+
+#将整数字符串转成整数型
+def convert(str):
+    def isValid(str1):
+        if str[0] != '-' and  (ord(str[0]) < ord('0') or ord(str[0]) > ord('9')):
+            return False
+        if str[0] == '-' and (len(str) == 1 or str[1] == '0'):
+            return False
+        if str[0] == '0' and len(str) > 1:
+            return False
+        for i in range(1, len(str)):
+            if ord(str[i]) < ord('0') or ord(str[i]) > ord('9'):
+                return False
+        return True
+
+    '''
+    先判断字符串是否符合书写规范
+    '''
+    if str == None or str == "":
+        return 0
+    if not isValid(str):
+        return 0
+    
+    '''
+    再将字符串转换为整数型
+    '''
+    posi = False if str[0] == '-' else True
+    minq = (-1 << 31) / 10 + 1  #python2.7 和 C++表现不一致，这样是为了保证余数为负数
+    minr = (-1 << 31) % 10 - 10
+#     print ("minq = %d, minr = %d\n" % (minq, minr))
+    res = 0
+    cur = 0
+    for i in range(0 if posi else 1, len(str)):
+        cur = ord('0') - ord(str[i])    #-2^31的绝对值比2^31-1大，采用负数来比较是否溢出 
+        if res < minq or (res == minq and cur < minr):
+            return 0 
+        # print ("res = %d, cur = %d\n" % (res, cur))
+        res = res * 10 + cur
+    if posi and res == (-1 << 31):  #检查正数是否溢出
+        return 0
+    return -res if posi else res
+
 if __name__ == '__main__':
 #    print(isDeformation1("132", "123"))
 #    print(isDeformation2("abccd", "ccdba"))
 #    print(numSum("123BB---58A33"))
 #    print(removeKZores("000ABC000a000ABC",3))
-    print(is_Rotation("abcd", "cdab"))
-    print(is_Rotation_KMP("abcd", "cdab"))
+#    print(is_Rotation("abcd", "cdab"))
+#    print(is_Rotation_KMP("abcd", "cdab"))
+    print(convert("2147483647"))
