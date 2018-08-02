@@ -222,15 +222,67 @@ int convert(string str)
      return posi ? -res : res;
 }
 
+string replace(string str, string from, string to)
+{
+    if(str.empty() || from.empty() || to.empty())
+        return str;
+    
+    int match = 0;
+    int index = 0;
+    for(int i=0; i < str.size(); i++)
+    {
+        if(str[i] == from[match++])
+        {
+            if(match == from.size())
+            {
+                index = i;
+                while(match>0)
+                {
+                    str[index] = '*';
+                    match--;
+                    index--; 
+                }
+            }
+        }
+        else
+        {
+            match = 0;
+            if(str[i] == from[0])
+                match++;
+        }
+    }
+
+    string cur = "";
+    string res = "";
+    for(int i = 0; i < str.size(); i++)
+    {
+        if(str[i] != '*')
+            cur = cur + str[i];
+        else
+        {
+            if(i == 0 || str[i-1] != '*')
+            {
+                res = res + cur + to;
+                cur = "";
+            }
+        }
+    }
+    res += cur;
+    return res;
+}
+
 int main()
 {
-    string str = "2147483647";
+    string str = "abcbcebcf";
+    string from = "bc";
+    string to = "123";
     // string str1 = "apple";
     // string str2 = "leapp";
     // cout << "str1 and str2 is Deformation ? " << (isDeformation(str1, str2)? "true" : "false") << endl;
     // string str=removeKZore("000ABC000a000ABC",3);
     // cout << "str is " << str <<endl;
     // cout << "str1 and str2 is_Rotation_KMP ? " << is_Rotation_KMP(str1, str2) << endl;
-    cout << str << " convert str to integrate, "  << convert(str) << endl;
+    // cout << str << " convert str to integrate, "  << convert(str) << endl;
+    cout << str << " replace " << from << " by " << to  << " is " << replace(str, from, to) << endl;; 
     system("pause");
 }

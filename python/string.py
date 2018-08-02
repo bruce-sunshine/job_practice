@@ -185,6 +185,43 @@ def convert(str):
         return 0
     return -res if posi else res
 
+def replace(str, fro, to):
+    if fro == None or str == None or to == None or str == '' or fro == '':
+        return str
+    chas = list(str)
+    match = 0
+    #找到匹配的地方并置换为''
+    for i in range(len(str)):
+        if chas[i] == fro[match]:
+            match += 1
+            if(match == len(fro)):
+                index = i
+                while match > 0:
+                    chas[index] = ''
+                    index -= 1
+                    match -= 1
+        else:
+            match = 0
+            if chas[i] == fro[0]:   #如果相等，从当前字符重新匹配
+                match += 1
+    # print chas
+    cur = ''
+    res = '' 
+    for i in range(len(str)):
+        if chas[i] != '':
+            cur = cur + chas[i]
+        else:
+            if i == 0 or chas[i-1] != '':
+                res = res + cur + to
+                cur = ''
+        # print res
+    if cur != '':
+        res += cur
+    return res
+
+
+
+
 if __name__ == '__main__':
 #    print(isDeformation1("132", "123"))
 #    print(isDeformation2("abccd", "ccdba"))
@@ -192,4 +229,5 @@ if __name__ == '__main__':
 #    print(removeKZores("000ABC000a000ABC",3))
 #    print(is_Rotation("abcd", "cdab"))
 #    print(is_Rotation_KMP("abcd", "cdab"))
-    print(convert("2147483647"))
+#    print(convert("2147483647"))
+    print(replace("abcbcebcf", "bc", "123"))
