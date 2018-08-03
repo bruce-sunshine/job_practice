@@ -219,7 +219,18 @@ def replace(str, fro, to):
         res += cur
     return res
 
-
+#判断字符数组中是否所有的字符只出现了一次
+#时间复杂度O(N)的算法
+def isUnique(str):
+    if str == None or len(str) == 0:
+        return True
+    map = {}
+    for i in range(len(str)):
+        if str[i] in map:
+            return False
+        else:
+            map[str[i]] = 1 
+    return True
 
 
 if __name__ == '__main__':
@@ -230,4 +241,5 @@ if __name__ == '__main__':
 #    print(is_Rotation("abcd", "cdab"))
 #    print(is_Rotation_KMP("abcd", "cdab"))
 #    print(convert("2147483647"))
-    print(replace("abcbcebcf", "bc", "123"))
+    # print(replace("abcbcebcf", "bc", "123"))
+    print isUnique("bacd")

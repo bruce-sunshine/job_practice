@@ -271,11 +271,26 @@ string replace(string str, string from, string to)
     return res;
 }
 
+bool isUnique(string str)
+{
+    if(str.empty())
+        return false;
+    vector<int>map = vector<int>(256,0);
+    for(int i = 0; i < str.size(); i++)
+    {
+        if(map[str[i]])
+            return false;
+        else
+            map[str[i]] = 1;
+    }
+    return true;
+}
+
 int main()
 {
-    string str = "abcbcebcf";
-    string from = "bc";
-    string to = "123";
+    string str = "abcdd";
+    // string from = "bc";
+    // string to = "123";
     // string str1 = "apple";
     // string str2 = "leapp";
     // cout << "str1 and str2 is Deformation ? " << (isDeformation(str1, str2)? "true" : "false") << endl;
@@ -283,6 +298,7 @@ int main()
     // cout << "str is " << str <<endl;
     // cout << "str1 and str2 is_Rotation_KMP ? " << is_Rotation_KMP(str1, str2) << endl;
     // cout << str << " convert str to integrate, "  << convert(str) << endl;
-    cout << str << " replace " << from << " by " << to  << " is " << replace(str, from, to) << endl;; 
+    // cout << str << " replace " << from << " by " << to  << " is " << replace(str, from, to) << endl;
+    cout << str << "isUnique ? " << isUnique(str) << endl;
     system("pause");
 }
