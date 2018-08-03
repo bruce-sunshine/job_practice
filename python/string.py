@@ -232,6 +232,35 @@ def isUnique(str):
             map[str[i]] = 1 
     return True
 
+#在有序但含有空的数组中查找字符串,返回str1在strlist中出现最左的位置
+def getIndex(strlist, str1):
+    if strlist == None or str1 == None or len(strlist) == 0:
+        return -1
+    res = -1
+    left = 0
+    right = len(strlist) - 1
+    while left <= right:
+        mid = (left + right) // 2
+        if strlist[mid] == str1:
+            res = mid
+            right = mid -1
+        elif strlist[mid] != None:
+            if strlist[mid] < str1:
+                left = mid + 1
+            else:
+                right = mid -1
+        else:
+            i = mid
+            while strlist[i] == None and i >= left:
+                i = i - 1
+            if strlist[i] < str1:
+                left = mid + 1
+            else:
+                res = i if strlist[i] == str1 else res
+                right = i -1
+    return res
+            
+
 
 if __name__ == '__main__':
 #    print(isDeformation1("132", "123"))
@@ -242,4 +271,5 @@ if __name__ == '__main__':
 #    print(is_Rotation_KMP("abcd", "cdab"))
 #    print(convert("2147483647"))
     # print(replace("abcbcebcf", "bc", "123"))
-    print isUnique("bacd")
+    # print isUnique("bacd")
+    print(getIndex([None, 'a', None, 'b', 'b', None, 'c'], 'b'))

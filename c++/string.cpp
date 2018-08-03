@@ -286,9 +286,54 @@ bool isUnique(string str)
     return true;
 }
 
+int getIndex(vector<string> strlist, string str1)
+{
+    if(strlist.empty() || str1.empty())
+        return -1;
+
+    int res = -1;
+    int left = 0;
+    int right = strlist.size() - 1;
+    int mid = 0; 
+    int i = 0;
+    while(left <= right)
+    {
+        mid = (left + right) / 2;
+        if(strlist[mid] == str1)
+        {
+            res = mid;
+            right = mid - 1;
+        }
+        else if(strlist[mid] != "")
+            {
+                if(strlist[mid] < str1)
+                    left = mid + 1;
+                else
+                    right = mid - 1;
+            }
+            else
+            {
+                i = mid;
+                while(strlist[i] == "" && i >= left)
+                    i--;
+                if(strlist[i] < str1)
+                    left = mid + 1;
+                else
+                {
+                    if(strlist[i] == str1)
+                        res = i;
+                    right = i - 1;    
+                }    
+            }
+    }
+    return res;
+}
+
 int main()
 {
     string str = "abcdd";
+    vector<string> strlist = {"a", "", "b", "", "", "b", "c"};
+    string str1="b";
     // string from = "bc";
     // string to = "123";
     // string str1 = "apple";
@@ -299,6 +344,7 @@ int main()
     // cout << "str1 and str2 is_Rotation_KMP ? " << is_Rotation_KMP(str1, str2) << endl;
     // cout << str << " convert str to integrate, "  << convert(str) << endl;
     // cout << str << " replace " << from << " by " << to  << " is " << replace(str, from, to) << endl;
-    cout << str << "isUnique ? " << isUnique(str) << endl;
+    // cout << str << "isUnique ? " << isUnique(str) << endl;
+    cout << "getindex " << getIndex(strlist, str1) <<endl;
     system("pause");
 }
