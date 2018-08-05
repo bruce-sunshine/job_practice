@@ -274,6 +274,31 @@ def rotate(str, size):
     reverse(chas, 0, len(chas) - 1)
     return chas
 
+#数组中两个字符串的最小值
+def minDistance(strlist, str1, str2):
+    if strlist == None or str1 == None or str2 == None:
+        return -1
+    if str1 == str2:
+        return 0
+    last1 = -1
+    last2 = -1
+    mindistance = sys.maxsize
+    print minDistance
+    for i in range(len(strlist)):
+        if strlist[i] == str1:
+            if last2 != -1:
+                dist = i - last2
+                mindistance = min(mindistance, dist)
+            last1 = i
+        if strlist[i] == str2:
+            if last1 != -1:
+                dist = i - last1
+                mindistance = min(mindistance, dist)
+            last2 = i
+    return mindistance if mindistance != sys.maxsize else -1
+
+
+
 if __name__ == '__main__':
 #    print(isDeformation1("132", "123"))
 #    print(isDeformation2("abccd", "ccdba"))
@@ -285,4 +310,5 @@ if __name__ == '__main__':
     # print(replace("abcbcebcf", "bc", "123"))
     # print isUnique("bacd")
     # print(getIndex([None, 'a', None, 'b', 'b', None, 'c'], 'b'))
-    print rotate("abcdefg", 0)
+    # print rotate("abcdefg", 0)
+    print minDistance(["abc", None, None, None, "abc", None, "123", None, "123"],"abc", "123")
