@@ -260,7 +260,19 @@ def getIndex(strlist, str1):
                 right = i -1
     return res
             
-
+def rotate(str, size):
+    if str == None or len(str) == 0 or size < 0 or size > len(str):
+        return
+    def reverse(chas, start, end):
+        while start < end:
+            chas[start], chas[end]= chas[end], chas[start]
+            start += 1
+            end -= 1
+    chas = list(str)
+    reverse(chas, 0, size - 1)
+    reverse(chas, size, len(chas) - 1)
+    reverse(chas, 0, len(chas) - 1)
+    return chas
 
 if __name__ == '__main__':
 #    print(isDeformation1("132", "123"))
@@ -272,4 +284,5 @@ if __name__ == '__main__':
 #    print(convert("2147483647"))
     # print(replace("abcbcebcf", "bc", "123"))
     # print isUnique("bacd")
-    print(getIndex([None, 'a', None, 'b', 'b', None, 'c'], 'b'))
+    # print(getIndex([None, 'a', None, 'b', 'b', None, 'c'], 'b'))
+    print rotate("abcdefg", 0)

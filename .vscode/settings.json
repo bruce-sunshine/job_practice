@@ -9,6 +9,10 @@
         "xstring": "cpp",
         "iostream": "cpp",
         "ostream": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "algorithm": "cpp",
+        "initializer_list": "cpp",
+        "type_traits": "cpp",
+        "xtree": "cpp"
     }
 }

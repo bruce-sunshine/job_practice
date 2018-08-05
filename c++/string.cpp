@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <math.h>
+#include <algorithm>
 using namespace std;
 
 //判断两个字符串是否为变形词
@@ -329,9 +331,57 @@ int getIndex(vector<string> strlist, string str1)
     return res;
 }
 
+void exchange(string & str, int start, int end, int size)
+{
+    int i = end - size + 1;
+    while(size > 0)
+    {
+        char temp = str[start];
+        str[start] = str[i];
+        str[i] = temp;
+        ++start;
+        ++i;
+        --size;
+    }
+}
+
+string rotate(string str, int size)
+{
+    if(str.empty() || size < 0 || size > str.size())
+        return str;
+    
+    int start = 0;
+    int end = str.size() - 1;
+    int lpart = size;
+    int rpart = str.size() - size;
+    int s = min(lpart, rpart);
+    int d = lpart - rpart;
+
+    while(1)
+    {
+        exchange(str, start, end, s);
+        if(d == 0)
+            break;
+        if(d < 0)
+        {
+            rpart = -d;
+            end -= s;
+        }
+        else
+        {
+            lpart = d;
+            start += s;
+        }
+        s = min(lpart, rpart);
+        d = lpart - rpart; 
+    }
+    return str;
+}
+
+
 int main()
 {
-    string str = "abcdd";
+    string str = "abcdefg";
     vector<string> strlist = {"a", "", "b", "", "", "b", "c"};
     string str1="b";
     // string from = "bc";
@@ -345,6 +395,7 @@ int main()
     // cout << str << " convert str to integrate, "  << convert(str) << endl;
     // cout << str << " replace " << from << " by " << to  << " is " << replace(str, from, to) << endl;
     // cout << str << "isUnique ? " << isUnique(str) << endl;
-    cout << "getindex " << getIndex(strlist, str1) <<endl;
+    // cout << "getindex " << getIndex(strlist, str1) <<endl;
+    cout << str << "rotate is " << rotate(str, 5) << endl;
     system("pause");
 }
