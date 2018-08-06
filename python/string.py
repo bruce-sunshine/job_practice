@@ -297,7 +297,43 @@ def minDistance(strlist, str1, str2):
             last2 = i
     return mindistance if mindistance != sys.maxsize else -1
 
-
+def getPalindrome_1(str):
+    def getdp(str):
+        dp = [[0 for i in range(len(str))] for j in range(len(str))]
+        for j in range(1, len(str)):
+            dp[j-1][j] = 0 if str[j-1] == str[j] else 1
+            for i in range(j-2, -1, -1):
+                if str[i] == str[j]:
+                    dp[i][j] = dp[i+1][j-1]
+                else:
+                    dp[i][j] = min(dp[i+1][j], dp[i][j-1]) + 1
+        return dp
+    
+    if str == None or len(str) < 2:
+        return str
+    dp = getdp(str)
+    res = [0 for i in range(len(str) + dp[0][len(str)-1])]
+    i = 0
+    j = len(str) -1
+    resl = 0
+    resr = len(res) - 1
+    while i <= j:
+        if str[i] == str[j]:
+            res[resl] = str[i]
+            res[resr] = str[j]
+            i += 1
+            j -= 1
+        elif dp[i+1][j] < dp[i][j-1]:
+            res[resl] = str[i]
+            res[resr] = str[i]
+            i += 1
+        else:
+            res[resl] = str[j]
+            res[resr] = str[j]
+            j -= 1
+        resl += 1
+        resr -= 1
+    return ''.join(res)
 
 if __name__ == '__main__':
 #    print(isDeformation1("132", "123"))
@@ -311,4 +347,5 @@ if __name__ == '__main__':
     # print isUnique("bacd")
     # print(getIndex([None, 'a', None, 'b', 'b', None, 'c'], 'b'))
     # print rotate("abcdefg", 0)
-    print minDistance(["abc", None, None, None, "abc", None, "123", None, "123"],"abc", "123")
+    # print minDistance(["abc", None, None, None, "abc", None, "123", None, "123"],"abc", "123")
+    print getPalindrome_1("A1B21C")
