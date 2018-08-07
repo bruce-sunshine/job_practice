@@ -378,12 +378,61 @@ string rotate(string str, int size)
     return str;
 }
 
+vector<vector<int>> getDp(string str)
+{
+    vector<vector<int>> dp(str.size(), vector<int>(str.size()));
+    for(int j = 1; j < str.size(); j++)
+    {
+        dp[j][j-1] = str[j-1] == str[j] ? 0 : 1;
+        for(int i = j-2; i > -1; --i)
+        {
+            if(str[i] == str[j])
+                dp[i][j] = dp[i+1][j-1];
+            else
+                dp[i][j] = min(dp[i+1][j], dp[i][j-1]) + 1;
+        }
+    }
+    return dp;
+}
+
+string getPalindrome_1(string str)
+{
+    if(str.size() < 2)
+        return str;
+    vector<vector<int>> dp = getDp(str);
+    string res;
+    int i = 0; 
+    int j = str.size() - 1;
+    int resl = 0;
+    int resr = str.size() + dp[0][str.size() - 1];
+    res.resize(resr + 1);
+
+    while(i <= j)
+    {
+       if(str[i] == str[j])
+       {
+           res[resl++] = str[i++];
+           res[resr--] = str[j--];
+       } 
+       else if(dp[i][j-1] < dp[i+1][j])
+       {
+           res[resl++] = str[j];
+           res[resr--] = str[j--];
+       }
+       else
+       {
+           res[resl++] = str[i];
+           res[resr--] = str[i++];
+       }
+    }
+    return res;
+}
 
 int main()
 {
-    string str = "abcdefg";
-    vector<string> strlist = {"a", "", "b", "", "", "b", "c"};
-    string str1="b";
+    string str = "A1B21C";
+    // vector<string> strlist = {"a", "", "b", "", "", "b", "c"};
+    // string str1="b";
     // string from = "bc";
     // string to = "123";
     // string str1 = "apple";
@@ -396,6 +445,7 @@ int main()
     // cout << str << " replace " << from << " by " << to  << " is " << replace(str, from, to) << endl;
     // cout << str << "isUnique ? " << isUnique(str) << endl;
     // cout << "getindex " << getIndex(strlist, str1) <<endl;
-    cout << str << "rotate is " << rotate(str, 5) << endl;
+    // cout << str << "rotate is " << rotate(str, 5) << endl;
+    cout << str << "getPalindrome is " << getPalindrome_1(str) <<endl;
     system("pause");
 }
