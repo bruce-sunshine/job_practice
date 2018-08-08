@@ -428,9 +428,56 @@ string getPalindrome_1(string str)
     return res;
 }
 
+string getPalindrome_2(string str, string strlps)
+{
+    if(str.empty())
+        return str;
+    
+    string res;
+    res.resize(2 * str.size() - strlps.size());
+    int lstr = 0;
+    int rstr = str.size() - 1;
+    int llps = 0;
+    int rlps = strlps.size() - 1;
+    int lres = 0;
+    int rres = res.size() - 1;
+    int temp1, temp2;
+
+    while(llps <= rlps)
+    {
+        temp1 = lstr;
+        temp2 = rstr;
+        while(str[lstr] != strlps[llps])
+            ++lstr;
+        while(str[rstr] != strlps[rlps])
+            --rstr;
+        for(int i = temp1; i < lstr; i++)
+        {
+            res[lres++] = str[i];
+            res[rres--] = str[i];
+        }
+        for(int i = temp2; i > rstr; i--)
+        {
+            res[lres++] = str[i];
+            res[rres--] = str[i];
+        }
+        res[lres] = str[lstr];
+        res[rres] = str[rstr];
+        ++lstr;
+        --rstr;
+        ++lres;
+        --rres;
+        ++llps;
+        --rlps;
+    }
+    return res;
+}
+
+
 int main()
 {
     string str = "A1B21C";
+    string strlps = "121";
     // vector<string> strlist = {"a", "", "b", "", "", "b", "c"};
     // string str1="b";
     // string from = "bc";
@@ -446,6 +493,6 @@ int main()
     // cout << str << "isUnique ? " << isUnique(str) << endl;
     // cout << "getindex " << getIndex(strlist, str1) <<endl;
     // cout << str << "rotate is " << rotate(str, 5) << endl;
-    cout << str << "getPalindrome is " << getPalindrome_1(str) <<endl;
+    cout <<"getPalindrome is " << getPalindrome_2(str, strlps) <<endl;
     system("pause");
 }

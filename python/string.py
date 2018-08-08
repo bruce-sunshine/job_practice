@@ -1,6 +1,5 @@
 #!/usr/bin/python
-#-*- coding=utf-8 -*-
-
+#-*- coding=utf-8 -*- 
 import sys
 #判断两个字符串是否为变形词
 #使用数组进行判断，前提是假设字符的编码值在0~255之间，即是ASCII编码，那么先申请一个长度为256的整型数组array
@@ -335,6 +334,48 @@ def getPalindrome_1(str):
         resr -= 1
     return ''.join(res)
 
+def getPalindrome_2(str, strlps):
+    if str == None or len(str) == 0 or strlps == None or len(strlps) == 0:
+        return 
+    
+    res = [""  for i in range(2 * len(str) - len(strlps))]
+    lstr = 0
+    rstr = len(str) - 1
+    llps = 0
+    rlps = len(strlps) - 1
+    lres = 0
+    rres = len(res) - 1
+
+    while llps <= rlps:
+        temp1 = lstr
+        temp2 = rstr
+        while str[lstr] != strlps[llps]:
+            lstr += 1
+        while str[rstr] != strlps[rlps]:
+            rstr -= 1       
+        for i in range(temp1, lstr):
+            res[lres] = str[i]
+            res[rres] = str[i]
+            lres += 1
+            rres -= 1
+        for i in range(temp2, rstr, -1):
+            res[lres] = str[i]
+            res[rres] = str[i]
+            lres += 1
+            rres -= 1
+        res[lres] = str[lstr]
+        res[rres] = str[rstr]
+        lstr += 1
+        rstr -= 1
+        lres += 1
+        rres -= 1
+        llps += 1
+        rlps -= 1
+    return ''.join(res)
+        
+
+
+
 if __name__ == '__main__':
 #    print(isDeformation1("132", "123"))
 #    print(isDeformation2("abccd", "ccdba"))
@@ -348,4 +389,4 @@ if __name__ == '__main__':
     # print(getIndex([None, 'a', None, 'b', 'b', None, 'c'], 'b'))
     # print rotate("abcdefg", 0)
     # print minDistance(["abc", None, None, None, "abc", None, "123", None, "123"],"abc", "123")
-    print getPalindrome_1("A1B21C")
+    print getPalindrome_2("A1B21C", "121")
