@@ -374,6 +374,53 @@ def getPalindrome_2(str, strlps):
     return ''.join(res)
         
 
+def getVaule(exp):
+    # 计算乘法和除法
+    def addNum(deque, pre):
+        if deque:
+            top = deque.pop()
+            if top == '+' or top == '-':
+                deque.append(top)
+            else:
+                cur = int(deque.pop())
+                pre = cur * pre if top == '*' else cur / pre
+        deque.append(pre)
+
+    # 计算加法和减法
+    def getNum(deque):
+        res = 0
+        add = True
+        while deque:
+            cur = deque.pop(0)
+            if cur == '+':
+                add = True
+            elif cur == '-': 
+                add = False
+            else:
+                res += int(cur) if add else -int(cur)
+        return res
+    
+    def value(exp, i):
+        deque = []
+        pre = 0
+        while i < len(exp) and exp[i] != ')':
+            if ord(exp[i]) >= ord('0') and ord(exp[i]) <= ord('9'):
+                pre = 10 * pre + int(exp[i])
+                i += 1
+            elif exp[i] != '(':
+                addNum(deque, pre)
+                deque.append(exp[i])
+                i += 1
+                pre = 0
+            else:
+                bra = value(exp, i + 1)
+                pre = bra[0]
+                i = bra[1] + 1
+        addNum(deque, pre)
+        return [getNum(deque), i]
+
+    return value(exp, 0)[0]
+
 
 
 if __name__ == '__main__':
@@ -389,4 +436,5 @@ if __name__ == '__main__':
     # print(getIndex([None, 'a', None, 'b', 'b', None, 'c'], 'b'))
     # print rotate("abcdefg", 0)
     # print minDistance(["abc", None, None, None, "abc", None, "123", None, "123"],"abc", "123")
-    print getPalindrome_2("A1B21C", "121")
+    # print getPalindrome_2("A1B21C", "121")
+    print getVaule("50*((10-5)-3)+68*1")
