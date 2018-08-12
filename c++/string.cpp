@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <deque>
 #include <map>
 #include <math.h>
 #include <algorithm>
@@ -473,6 +474,83 @@ string getPalindrome_2(string str, string strlps)
     return res;
 }
 
+//计算乘除法
+void addNum(deque<string> &deq, int pre)
+{
+    int cur;
+    if(!deq.empty())
+    {
+        string top = deq.back();
+        
+        if(std::stoi(top) == int('*') || std::stoi(top) == int('/'))
+        {
+			deq.pop_back();
+            cur = std::stoi(deq.back());
+            deq.pop_back();
+            if(std::stoi(top) == int('*'))
+                pre = cur * pre;
+            else if(std::stoi(top) == int('/'))
+                pre = cur / pre;            
+        }
+    }
+    deq.push_back(std::to_string(pre));
+}
+// 计算加减法
+int getNum(deque<string> &deq)
+{
+    int res = 0;
+    bool Add = true;
+    string cur;
+    while(!deq.empty())
+    {
+        cur = deq.at(0);
+        deq.pop_front();
+        if(std::stoi(cur) == int('+'))
+            Add = true;
+        else if(std::stoi(cur) == int('-'))
+            Add = false;
+            else
+            {
+                res += Add ? std::stoi(cur) : -std::stoi(cur);
+            }
+    }
+    return res;
+}
+
+vector<int> value(string &exp, int i)
+{
+    vector<int> bra;
+    deque<string> deq;
+    int pre = 0;
+    while(i < exp.size() && exp[i] != ')')
+    {
+        if(exp[i] >= '0' && exp[i] <= '9')
+        {
+            pre = pre * 10 + exp[i] - '0';
+            i++;
+        }
+        else if(exp[i] != '(')
+        {
+            addNum(deq, pre);
+            deq.push_back(to_string(exp[i]));
+            i++;
+            pre = 0;
+        }
+        else
+        {
+            bra = value(exp, i+1);
+            pre = bra[0];
+            i = bra[1] + 1;
+        }
+    }
+    addNum(deq, pre);
+    return vector<int> {getNum(deq), i};
+}
+
+int GetValue(string exp)
+{
+    return value(exp, 0)[0];
+}
 
 int main()
 {
@@ -493,6 +571,7 @@ int main()
     // cout << str << "isUnique ? " << isUnique(str) << endl;
     // cout << "getindex " << getIndex(strlist, str1) <<endl;
     // cout << str << "rotate is " << rotate(str, 5) << endl;
-    cout <<"getPalindrome is " << getPalindrome_2(str, strlps) <<endl;
+    // cout <<"getPalindrome is " << getPalindrome_2(str, strlps) <<endl;
+    cout << "getValue= " << GetValue("50*((10-5)-3)+68*1") <<endl;
     system("pause");
 }
