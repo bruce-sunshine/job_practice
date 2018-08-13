@@ -421,6 +421,55 @@ def getVaule(exp):
 
     return value(exp, 0)[0]
 
+#拼接所有字符串产生字典顺序最小的大字符串
+def lowestString(chas):
+    if chas == None or len(chas) == 0:
+        return ""
+    from functools import cmp_to_key
+    chas = sorted(chas, key = cmp_to_key(lambda x,y : 1 if x + y > y + x else -1))
+    return ''.join(chas)
+
+#找到字符串的最长无重复字符子串的长度
+def maxUniqueStr(str):
+    if str == None or len(str) == 0:
+        return 0
+    map = {}
+    pre = -1
+    length = 0
+    for i in range(len(str)):
+        if str[i] in map:
+            pre = max(pre, map[str[i]])
+        length = max(length, i - pre)
+        map[str[i]] = i #记录上一次的index
+    return length
+
+
+
+def minLength(str1, str2):
+    if str1 == None or str2 == None or len(str1) < len(str2):
+        return 0   
+    map = [ 0 for i in range(256)]
+    for i in range(len(str2)):
+        map[ord(str2[i])] += 1
+    left = 0
+    right = 0
+    match = len(str2)
+    minlength = sys.maxsize
+    while right < len(str1):
+        map[ord(str1[right])] -= 1
+        if map[ord(str1[right])] >= 0:
+            match -= 1
+        if match == 0:
+            while map[ord(str1[left])] < 0:
+                map[ord(str1[left])] += 1
+                left += 1       #可以不写?     
+            minlength = min(minlength, right - left + 1)
+            print "minlength = %d, right= %d, left=%d" % (minlength, right, left)
+            match += 1
+            map[ord(str1[left])] += 1 #接着向后搜索
+            left += 1
+        right += 1 
+    return minlength if minlength != sys.maxsize else 0
 
 
 if __name__ == '__main__':
@@ -436,5 +485,9 @@ if __name__ == '__main__':
     # print(getIndex([None, 'a', None, 'b', 'b', None, 'c'], 'b'))
     # print rotate("abcdefg", 0)
     # print minDistance(["abc", None, None, None, "abc", None, "123", None, "123"],"abc", "123")
-    # print getPalindrome_2("A1B21C", "121")
-    print getVaule("50*((10-5)-3)+68*1")
+    # print getPalindrome_2("A1B21
+    # C", "121")
+    # print getVaule("50*((10-5)-3)+68*1")
+    # print lowestString(["de", "abc", "123"])
+    # print maxUniqueStr("abcdacd")
+    print minLength("abceeeeeeac", "ac")
