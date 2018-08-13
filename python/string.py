@@ -485,8 +485,7 @@ if __name__ == '__main__':
     # print(getIndex([None, 'a', None, 'b', 'b', None, 'c'], 'b'))
     # print rotate("abcdefg", 0)
     # print minDistance(["abc", None, None, None, "abc", None, "123", None, "123"],"abc", "123")
-    # print getPalindrome_2("A1B21
-    # C", "121")
+    # print getPalindrome_2("A1B21C", "121")
     # print getVaule("50*((10-5)-3)+68*1")
     # print lowestString(["de", "abc", "123"])
     # print maxUniqueStr("abcdacd")
