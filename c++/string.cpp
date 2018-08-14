@@ -587,6 +587,29 @@ int minLength(string str1, string str2)
     return minlength == str1.size() ? 0 : minlength;
 }
 
+#define maxsize 256
+int minCut(string str)
+{
+    if(str.empty())
+        return 0;
+    int N = str.size();
+    vector<int> dp(N);
+	bool array[maxsize][maxsize] = {false};
+    for(int i = N - 1; i >= 0; i--)
+    {
+        dp[i] = maxsize;
+        for(int j = i; j < N; j++)
+        {
+            if(str[i] == str[j] && (j - i < 2 || array[i+1][j-1]))
+            {
+                array[i][j] = true;
+                dp[i] = min(dp[i], j + 1 == N ? 0 : (dp[j + 1] + 1));
+            }
+        }
+    }
+    return dp[0];
+}
+
 int main()
 {
     string str = "A1B21C";
@@ -608,6 +631,7 @@ int main()
     // cout << str << "rotate is " << rotate(str, 5) << endl;
     // cout <<"getPalindrome is " << getPalindrome_2(str, strlps) <<endl;
     // cout << "getValue= " << GetValue("50*((10-5)-3)+68*1") <<endl;
-    cout << "minLength is " << minLength("abceeeeeeac", "ac") << endl;
+    // cout << "minLength is " << minLength("abceeeeeeac", "ac") << endl;
+    cout << "minCut= " << minCut("ACDCDCDAD") << endl;
     system("pause");
 }

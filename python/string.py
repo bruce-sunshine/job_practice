@@ -472,6 +472,22 @@ def minLength(str1, str2):
     return minlength if minlength != sys.maxsize else 0
 
 
+def minCut(str):
+    if str == None or str == "":
+        return 0
+    N = len(str)
+    dp = [0 for i in range(N)]
+    array = [[False for i in range(N)] for j in range(N)]
+    for i in range(N-1, -1, -1):
+        dp[i] = sys.maxsize
+        for j in range(i, N):
+            if str[i] == str[j] and (j - i < 2 or array[i+1][j-1]): #判断是否为回文串
+                array[i][j] = True
+                dp[i] = min(dp[i], 0 if j + 1 == N else dp[j + 1] + 1)
+    return dp[0]
+
+
+
 if __name__ == '__main__':
 #    print(isDeformation1("132", "123"))
 #    print(isDeformation2("abccd", "ccdba"))
@@ -489,4 +505,5 @@ if __name__ == '__main__':
     # print getVaule("50*((10-5)-3)+68*1")
     # print lowestString(["de", "abc", "123"])
     # print maxUniqueStr("abcdacd")
-    print minLength("abceeeeeeac", "ac")
+    # print minLength("abceeeeeeac", "ac")
+    print minCut("ACDCDCDAD")
