@@ -552,6 +552,41 @@ int GetValue(string exp)
     return value(exp, 0)[0];
 }
 
+int minLength(string str1, string str2)
+{
+    if(str1.empty() || str2.empty() || str1.size() < str2.size())
+        return 0;
+    vector<int> map(256);
+    for(int i = 0 ; i < str2.size(); i++)
+    {
+        map[str2[i]] += 1; 
+    }
+    int left = 0;
+    int right = 0;
+    int match = str2.size();
+    int minlength = str1.size();
+    while(right < str1.size())
+    {
+        map[str1[right]] -= 1;
+        if(map[str1[right]] >= 0)
+            match--;
+        if(match == 0)
+        {
+            while(map[str1[left]] < 0)
+            {
+                left++;
+                map[str1[left]] += 1;
+            }
+            minlength = min(minlength, right - left + 1);
+            match++;
+            map[str1[left]] += 1;
+            left++;
+        }
+        right++;
+    }
+    return minlength == str1.size() ? 0 : minlength;
+}
+
 int main()
 {
     string str = "A1B21C";
@@ -572,6 +607,7 @@ int main()
     // cout << "getindex " << getIndex(strlist, str1) <<endl;
     // cout << str << "rotate is " << rotate(str, 5) << endl;
     // cout <<"getPalindrome is " << getPalindrome_2(str, strlps) <<endl;
-    cout << "getValue= " << GetValue("50*((10-5)-3)+68*1") <<endl;
+    // cout << "getValue= " << GetValue("50*((10-5)-3)+68*1") <<endl;
+    cout << "minLength is " << minLength("abceeeeeeac", "ac") << endl;
     system("pause");
 }
