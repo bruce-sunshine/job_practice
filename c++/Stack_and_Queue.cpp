@@ -1,7 +1,8 @@
 #include <iostream>
 #include <stdlib.h>
-//#include <math.h>
-//#include <algorithm>
+#include <stack>
+#include <math.h>
+#include <algorithm>
 using namespace std;
 
 #define MAXSIZE 0xffff
@@ -103,12 +104,72 @@ template<class type>
     }
 
 
+template<class type>
+class NewStack
+{
+public:
+	NewStack() :size(MAXSIZE){}
+
+    NewStack(int Size):size(Size){}
+
+    void Push(type ty)
+    {
+        if(stackData.size() + 1 < size)
+        {
+            stackData.push(ty);
+            if (stackMin.size() == 0 || ty < getMin())
+                stackMin.push(ty);
+        }
+        else
+        {
+            cerr << "NewStack is full" << endl;
+            exit(-1);
+        }
+    }
+
+    type Pop()
+    {
+        if(stackData.empty())
+        {
+            cerr << "NewStack is empty" << endl;
+            exit(-1);
+        }
+
+        type value = stackData.top();
+        if(value == getMin())
+            stackMin.pop();
+        stackData.pop();
+    }
+
+    type getMin()
+    {
+        if(stackData.size() == 0)
+        {
+            cerr << "NewStack is empty" << endl;
+            exit(-1);
+        }
+        return stackMin.top();
+    }
+
+private:
+    stack<type> stackData;
+    stack<type> stackMin;
+    int size;
+};
+
+
 int main()
 {
-    my_stack<int> stk(500);
-    for(int i = 0; i < 200; i++)
-        stk.Push(i);
-    cout << "my_stack size = " << stk.Size() << endl;
+    // my_stack<int> stk(500);
+    // for(int i = 0; i < 200; i++)
+    //     stk.Push(i);
+    // cout << "my_stack size = " << stk.Size() << endl;
+
+    NewStack<int> new_stk(500);
+    new_stk.Push(123);
+    new_stk.Push(456);
+    new_stk.Push(789);
+    cout <<"getMin is " << new_stk.getMin() <<endl;;
 
 	system("pause");
     return 0;
