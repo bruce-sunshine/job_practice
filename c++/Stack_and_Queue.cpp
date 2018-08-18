@@ -158,18 +158,79 @@ private:
 };
 
 
+// 由两个栈组成的队列
+// 1.如果stackPush要往stackPop压入数据，那么必须一次性把stackPush中数据全部压入。 
+// 2.如果stackPop不为空，stackPush绝对不能向stackPop压入数据。 
+template <class type>
+class TwoStackQueue
+{
+    public:
+        void add(type num)
+        {
+            stackPush.push(num);
+        }
+
+        void poll()
+        {
+            if(stackPush.empty() && stackPop.empty())
+            {
+                cerr << "Queue is empty!" << endl;
+                exit(-1);
+            }
+            else if(stackPop.empty())
+            {
+                while(!(stackPush.empty()))
+                {
+                    stackPop.push(stackPush.top());
+                    stackPush.pop();
+                }
+            }
+            return stackPop.pop();
+        }
+
+        type peek()
+        {
+            if(stackPush.empty() && stackPop.empty())
+            {
+                cerr << "Queue is empty!" << endl;
+                exit(-1);
+            }
+            else if(stackPop.empty())
+            {
+                while(!(stackPush.empty()))
+                {
+                    stackPop.push(stackPush.top());
+                    stackPush.pop();
+                }
+            }
+            return stackPop.top();
+        }
+
+    private:
+        stack<type> stackPush;
+        stack<type> stackPop;
+
+};
+
+
 int main()
 {
     // my_stack<int> stk(500);
     // for(int i = 0; i < 200; i++)
     //     stk.Push(i);
     // cout << "my_stack size = " << stk.Size() << endl;
-
-    NewStack<int> new_stk(500);
-    new_stk.Push(123);
-    new_stk.Push(456);
-    new_stk.Push(789);
-    cout <<"getMin is " << new_stk.getMin() <<endl;;
+    // NewStack<int> new_stk(500);
+    // new_stk.Push(123);
+    // new_stk.Push(456);
+    // new_stk.Push(789);
+    // cout <<"getMin is " << new_stk.getMin() <<endl;
+    TwoStackQueue<int> queue;
+    queue.add(123);
+    queue.add(456);
+	cout << queue.peek() << endl;
+    queue.poll();
+	cout << queue.peek() << endl;
+    queue.poll();
 
 	system("pause");
     return 0;

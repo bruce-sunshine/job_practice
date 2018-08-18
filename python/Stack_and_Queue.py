@@ -24,11 +24,45 @@ class NewStack:
             raise Exception("stack is empty")
         return self.stackMin[-1]
 
+
+#两个栈组成队列
+class TwoStackQueue:
+    stackPush = []
+    stackPop = []
+
+    def add(self, newNum):
+        self.stackPush.append(newNum)
+    
+    def poll(self):
+        if not self.stackPush and not self.stackPop:
+            raise Exception("Queue is empty!")
+        elif not self.stackPop:
+            while self.stackPush:
+                self.stackPop.append(self.stackPush.pop())
+        return self.stackPop.pop()
+
+    def peek(self):
+        if not self.stackPush and not self.stackPop:
+            raise Exception("Queue is empty!")
+        elif not self.stackPop:
+            while self.stackPush:
+                self.stackPop.append(self.stackPush.pop())
+        return self.stackPop[-1]
+
+
 if __name__ == "__main__":
-    stack = NewStack()
-    stack.push(123)
-    stack.push(456)
-    stack.push(789)
-    print (stack.getMin())
-    print (stack.pop())
+    # stack = NewStack()
+    # stack.push(123)
+    # stack.push(456)
+    # stack.push(789)
+    # print (stack.getMin())
+    # print (stack.pop())
+    queue = TwoStackQueue()
+    queue.add(123)
+    queue.add(456)
+    print (queue.peek())
+    print (queue.poll())
+    print (queue.peek())
+    print (queue.poll())
+    
         
