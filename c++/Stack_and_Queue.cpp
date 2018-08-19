@@ -212,6 +212,32 @@ class TwoStackQueue
 
 };
 
+int getAndRemoveLast(stack<int>& stk)
+{
+    int result = stk.top();
+    stk.pop();
+    if(stk.size() == 0)
+    {
+        return result;	//返回栈底元素
+    }
+	else {
+		int i = getAndRemoveLast(stk);	//得到栈底元素
+		stk.push(result);	//栈顶元素压栈
+		return i;
+	}
+}
+
+void reverse(stack<int>& stk)
+{
+	if (stk.size() == 0)
+	{
+		return;
+	}
+    int i = getAndRemoveLast(stk);
+    reverse(stk);
+    stk.push(i);
+}
+
 
 int main()
 {
@@ -224,13 +250,20 @@ int main()
     // new_stk.Push(456);
     // new_stk.Push(789);
     // cout <<"getMin is " << new_stk.getMin() <<endl;
-    TwoStackQueue<int> queue;
-    queue.add(123);
-    queue.add(456);
-	cout << queue.peek() << endl;
-    queue.poll();
-	cout << queue.peek() << endl;
-    queue.poll();
+    // TwoStackQueue<int> queue;
+    // queue.add(123);
+    // queue.add(456);
+	// cout << queue.peek() << endl;
+    // queue.poll();
+	// cout << queue.peek() << endl;
+    // queue.poll();
+
+    stack<int> stk;
+    stk.push(123);
+    stk.push(456);
+    stk.push(789);
+    reverse(stk);
+    cout << "stk, top = " << stk.top() << endl;
 
 	system("pause");
     return 0;

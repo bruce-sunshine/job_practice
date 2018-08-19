@@ -49,6 +49,23 @@ class TwoStackQueue:
                 self.stackPop.append(self.stackPush.pop())
         return self.stackPop[-1]
 
+#如何仅用递归函数和栈操作逆序一个栈
+def reverse(stack):
+    def getAndRemoveLast(stack):
+        result = stack.pop()
+        if len(stack) == 0:
+            return result
+        else:
+            i = getAndRemoveLast(stack)
+            stack.append(result)
+            return i
+    
+    if len(stack) == 0:
+        return 
+    i = getAndRemoveLast(stack)
+    reverse(stack)
+    stack.append(i)
+    return stack
 
 if __name__ == "__main__":
     # stack = NewStack()
@@ -57,12 +74,13 @@ if __name__ == "__main__":
     # stack.push(789)
     # print (stack.getMin())
     # print (stack.pop())
-    queue = TwoStackQueue()
-    queue.add(123)
-    queue.add(456)
-    print (queue.peek())
-    print (queue.poll())
-    print (queue.peek())
-    print (queue.poll())
+    # queue = TwoStackQueue()
+    # queue.add(123)
+    # queue.add(456)
+    # print (queue.peek())
+    # print (queue.poll())
+    # print (queue.peek())
+    # print (queue.poll())
+    print (reverse([1, 2, 3, 4, 5]))
     
         
