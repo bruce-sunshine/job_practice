@@ -239,6 +239,35 @@ void reverse(stack<int>& stk)
 }
 
 
+void sortByStack(stack<int>& stk)
+{
+    if(stk.size() < 2)
+        return;
+    stack<int> help_stk;
+    while(stk.size() != 0)
+    {
+        int cur = stk.top();
+		stk.pop();
+        if(help_stk.size() == 0 || help_stk.top() >= cur)
+        {
+            help_stk.push(cur);
+        }
+        else{
+            while(help_stk.size() != 0)
+            {
+                stk.push(help_stk.top());
+                help_stk.pop();
+            }
+			help_stk.push(cur);
+        }        
+    }
+    while(help_stk.size() != 0)
+    {
+        stk.push(help_stk.top());
+        help_stk.pop();
+    }
+}
+
 int main()
 {
     // my_stack<int> stk(500);
@@ -259,10 +288,14 @@ int main()
     // queue.poll();
 
     stack<int> stk;
-    stk.push(123);
-    stk.push(456);
-    stk.push(789);
-    reverse(stk);
+    stk.push(4);
+    stk.push(3);
+    stk.push(2);
+    stk.push(1);
+    stk.push(5);
+    stk.push(6);
+//    reverse(stk);
+    sortByStack(stk);
     cout << "stk, top = " << stk.top() << endl;
 
 	system("pause");

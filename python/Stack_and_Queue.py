@@ -67,6 +67,23 @@ def reverse(stack):
     stack.append(i)
     return stack
 
+#用一个栈实现另一个栈的排序
+def sortByStack(stack):
+    if len(stack) < 2:
+        return stack
+    help_stack = []
+    while stack:
+        cur = stack.pop()
+        if len(help_stack) == 0 or help_stack[-1] >= cur:
+            help_stack.append(cur)
+        else:
+            while help_stack:
+                stack.append(help_stack.pop())
+            help_stack.append(cur)
+    while help_stack:
+        stack.append(help_stack.pop())
+    return stack
+
 if __name__ == "__main__":
     # stack = NewStack()
     # stack.push(123)
@@ -81,6 +98,7 @@ if __name__ == "__main__":
     # print (queue.poll())
     # print (queue.peek())
     # print (queue.poll())
-    print (reverse([1, 2, 3, 4, 5]))
+    # print (reverse([1, 2, 3, 4, 5]))
+    print sortByStack([4, 3, 2, 1, 5, 6])
     
         
