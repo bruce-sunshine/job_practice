@@ -3,6 +3,7 @@
 #include <stack>
 #include <math.h>
 #include <algorithm>
+#include <vector>
 using namespace std;
 
 #define MAXSIZE 0xffff
@@ -239,6 +240,7 @@ void reverse(stack<int>& stk)
 }
 
 
+
 void sortByStack(stack<int>& stk)
 {
     if(stk.size() < 2)
@@ -268,6 +270,27 @@ void sortByStack(stack<int>& stk)
     }
 }
 
+vector<int> getMaxWindow(vector<int> arr, int w)
+{
+    if(arr.size() == 0 || w < 1 || arr.size() < w)
+        return vector<int>{};
+    
+    deque<int> deq;
+    vector<int> res;
+    for(int i = 0; i < arr.size(); i++)
+    {
+        while(!deq.empty() && arr[deq.back()] <= arr[i])
+            deq.pop_back();
+        deq.push_back(i);
+        if(deq.at(0) == i - w)
+            deq.pop_front();
+        if(i >= w - 1)
+            res.push_back(arr[deq.at(0)]);
+    }
+    return res;
+}
+
+
 int main()
 {
     // my_stack<int> stk(500);
@@ -287,16 +310,22 @@ int main()
 	// cout << queue.peek() << endl;
     // queue.poll();
 
-    stack<int> stk;
-    stk.push(4);
-    stk.push(3);
-    stk.push(2);
-    stk.push(1);
-    stk.push(5);
-    stk.push(6);
-//    reverse(stk);
-    sortByStack(stk);
-    cout << "stk, top = " << stk.top() << endl;
+//     stack<int> stk;
+//     stk.push(4);
+//     stk.push(3);
+//     stk.push(2);
+//     stk.push(1);
+//     stk.push(5);
+//     stk.push(6);
+// //    reverse(stk);
+//     sortByStack(stk);
+//     cout << "stk, top = " << stk.top() << endl;
+    vector<int> vec = {4, 3, 5, 4, 3, 3, 6, 7};
+    vector<int> res;
+    res = getMaxWindow(vec, 3);
+    for(int i = 0; i < res.size(); i++)
+        cout << res[i] << " ";
+    cout << endl;
 
 	system("pause");
     return 0;

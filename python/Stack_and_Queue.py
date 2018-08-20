@@ -84,6 +84,21 @@ def sortByStack(stack):
         stack.append(help_stack.pop())
     return stack
 
+def getMaxWindow(arr, w):
+    if len(arr) == 0 or w < 1 or len(arr) < w:
+        return
+    deq = []
+    res = []
+    for i in range(len(arr)):
+        while(deq and arr[deq[-1]] <= arr[i]): #note here, deq store index, not value of arr
+            deq.pop()
+        deq.append(i)
+        if deq[-1] == i - w:
+            deq.pop(0)
+        if i >= w-1:
+            res.append(arr[deq[0]])
+    return res
+
 if __name__ == "__main__":
     # stack = NewStack()
     # stack.push(123)
@@ -99,6 +114,7 @@ if __name__ == "__main__":
     # print (queue.peek())
     # print (queue.poll())
     # print (reverse([1, 2, 3, 4, 5]))
-    print sortByStack([4, 3, 2, 1, 5, 6])
+    # print sortByStack([4, 3, 2, 1, 5, 6])
+    print getMaxWindow([4, 3, 5, 4, 3, 3, 6, 7], 3)
     
         
