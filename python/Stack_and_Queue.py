@@ -99,6 +99,37 @@ def getMaxWindow(arr, w):
             res.append(arr[deq[0]])
     return res
 
+#求最大子矩阵的大小
+def maxRecsize(map):
+    def maxRecFromBottom(height):
+        if height == None or len(height) == 0:
+            return 0
+        stack = []
+        maxArea = 0
+        for i in range(len(height)):
+            while stack and height[stack[-1]] >= height[i]:
+                j = stack.pop()
+                k = stack[-1] if stack else -1
+                maxArea = max(maxArea, (j-k+1)*height[j])
+            stack.append(i)
+        while stack:
+            j = stack.pop()
+            k = stack[-1] if stack else -1
+            maxArea = max(maxArea, (j-k+1)*height[j])
+        return maxArea
+    
+    if map == None or len(map) == 0 or len(map[0]) == 0:
+        return 0
+    height = [0 for i in range(len(map[0]))]
+    print "len of map = %d" % len(map)
+    maxArea = 0
+    for i in range(len(map)):
+        for j in range(len(map[0])):
+            height[j] = 0 if map[i][j] == 0 else height[j] + 1
+        maxArea = max(maxArea, maxRecFromBottom(height))
+    return maxArea
+
+
 if __name__ == "__main__":
     # stack = NewStack()
     # stack.push(123)
@@ -115,6 +146,7 @@ if __name__ == "__main__":
     # print (queue.poll())
     # print (reverse([1, 2, 3, 4, 5]))
     # print sortByStack([4, 3, 2, 1, 5, 6])
-    print getMaxWindow([4, 3, 5, 4, 3, 3, 6, 7], 3)
+    # print getMaxWindow([4, 3, 5, 4, 3, 3, 6, 7], 3)
+    print(maxRecsize([[1,0,1,1], [1,1,1,1], [1,1,1,0]]))
     
         

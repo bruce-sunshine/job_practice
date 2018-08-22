@@ -290,6 +290,50 @@ vector<int> getMaxWindow(vector<int> arr, int w)
     return res;
 }
 
+int maxRecFromBottom(vector<int>& height)
+{
+    if(height.size() == 0)
+        return 0;
+    stack<int> stack;
+    int maxArea = 0;
+    for(int i = 0; i < height.size(); i++)
+    {
+        while(!stack.empty() && height[stack.top()] >= height[i])
+        {
+            int j = stack.top();
+            stack.pop();
+            int k = stack.empty() ? -1 : stack.top();
+            maxArea = max(maxArea, (j-k+1)*height[j]);
+        }
+        stack.push(i);
+    }
+    while(!stack.empty())
+    {
+        int j = stack.top();
+        stack.pop();
+        int k =  stack.empty() ? -1 : stack.top();
+        maxArea = max(maxArea, (j-k+1)*height[j]);
+    }
+    return maxArea;
+}
+
+int maxRecSize(vector<vector<int>>& arr)
+{
+    if(arr.size() == 0)
+        return 0;
+    vector<int> height(arr[0].size(), 0);
+    int maxArea = 0;
+
+    for(int i = 0; i < arr.size(); i++)
+    {
+        for(int j = 0; j < arr[0].size(); j++)
+        {
+            height[j] = (arr[i][j] == 0 ? 0 : height[j] + 1);
+        }
+        maxArea = max(maxArea , maxRecFromBottom(height));
+    }
+    return maxArea;
+}
 
 int main()
 {
@@ -320,12 +364,13 @@ int main()
 // //    reverse(stk);
 //     sortByStack(stk);
 //     cout << "stk, top = " << stk.top() << endl;
-    vector<int> vec = {4, 3, 5, 4, 3, 3, 6, 7};
-    vector<int> res;
-    res = getMaxWindow(vec, 3);
-    for(int i = 0; i < res.size(); i++)
-        cout << res[i] << " ";
-    cout << endl;
+    // vector<int> vec = {4, 3, 5, 4, 3, 3, 6, 7};
+    // vector<int> res;
+    // res = getMaxWindow(vec, 3);
+    // for(int i = 0; i < res.size(); i++)
+    //     cout << res[i] << " ";
+    vector<vector<int>> arr = {{1,0,1,1}, {1,1,1,1}, {1,1,1,0}};
+    cout << maxRecSize(arr) <<endl;
 
 	system("pause");
     return 0;
