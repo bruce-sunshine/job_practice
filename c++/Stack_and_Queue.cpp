@@ -335,6 +335,43 @@ int maxRecSize(vector<vector<int>>& arr)
     return maxArea;
 }
 
+int getNum(vector<int> arr, int num)
+{
+    if(arr.size() == 0 || num <= 0)
+        return 0;
+    int i = 0;
+    int j = 0;
+    int res = 0;
+	deque<int> qmin;
+	deque<int> qmax;
+    while(i < arr.size())
+    {
+        while(j < arr.size())
+        {
+            while(!qmin.empty() && arr[qmin.back()] >= arr[j])
+            {
+                qmin.pop_back();
+            }
+            qmin.push_back(j);
+            while(!qmax.empty() && arr[qmax.back()] <= arr[j])
+            {
+                qmax.pop_back();
+            }
+            qmax.push_back(j);
+            if(arr[qmax.front()] - arr[qmin.front()] > num)
+                break;
+            j++;
+        }
+        if(qmin.front() == i)
+            qmin.pop_front();
+        if(qmax.front() == i)
+            qmax.pop_front();
+        res += j - i;
+        i++;
+    }
+    return res;
+}
+
 int main()
 {
     // my_stack<int> stk(500);
@@ -369,8 +406,10 @@ int main()
     // res = getMaxWindow(vec, 3);
     // for(int i = 0; i < res.size(); i++)
     //     cout << res[i] << " ";
-    vector<vector<int>> arr = {{1,0,1,1}, {1,1,1,1}, {1,1,1,0}};
-    cout << maxRecSize(arr) <<endl;
+    // vector<vector<int>> arr = {{1,0,1,1}, {1,1,1,1}, {1,1,1,0}};
+    // cout << maxRecSize(arr) <<endl;
+    vector<int> arr = {1,2,3,4,5};
+    cout << getNum(arr, 5) << endl;
 
 	system("pause");
     return 0;
