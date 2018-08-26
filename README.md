@@ -6,4 +6,6 @@ practice c++/python, form 7/12/2018.
 
 2.add string form 7/24/2018 to 8/14/2018
 
-3.add Stack_and_Queue from 8/15/2018
+3.add Stack_and_Queue from 8/15/2018 to 8/24/2018
+
+3.add LinkedList for 26/8/2018
