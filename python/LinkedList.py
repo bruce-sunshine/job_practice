@@ -48,6 +48,20 @@ def removeLastKthNode(head, k):
         cur.next = cur.next.next
     return head
 
+def removeMidNode(head):
+    if head == None or head.next == None:
+        return head
+    if head.next.next == None:
+        return head.next
+    pre = head
+    cur = head.next.next
+    while cur.next != None and cur.next.next != None:
+        pre = pre.next
+        cur = cur.next.next
+    pre.next = pre.next.next
+    return head
+
+
 
 if __name__ == '__main__':
     arr1 = [1,3,4,5,7]
@@ -64,9 +78,10 @@ if __name__ == '__main__':
             test2.next = Node()
             test1 = test1.next
             test2 = test2.next
-    printCommonPart(t1, t2)
-    print "After remove Last 2th Node, is "
-    head =  removeLastKthNode(t1, 2)
+    # printCommonPart(t1, t2)
+    # print "After remove Last 2th Node, is "
+    # head =  removeLastKthNode(t1, 2)
+    head = removeMidNode(t2)
     while head != None:
         print(head.val)
         head = head.next

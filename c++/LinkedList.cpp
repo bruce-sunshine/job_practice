@@ -108,6 +108,24 @@ ListNode* removeLastKthNode(ListNode* head, int k)
     return head;
 }
 
+//删除链表中间节点和a/b处节点
+ListNode* removeMidNode(ListNode* head)
+{
+    if(head == NULL || head->next == NULL)
+        return head;
+    if(head->next->next == NULL)
+        return head->next;
+    ListNode* pre = head;
+    ListNode* cur = head->next->next;
+    while(cur->next != NULL && cur->next->next != NULL)
+    {
+        pre = pre->next;
+        cur = cur->next->next;
+    }
+    pre->next = pre->next->next;
+    return head;
+}
+
 int main()
 {
     ListNode* node1 = new ListNode(1);
@@ -135,6 +153,8 @@ int main()
     printCommonPart(node1, node6);
     removeLastKthNode(node1, 2);
     printListNode(node1);
+    removeMidNode(node6);
+    printListNode(node6);
 	system("pause");
     return 1;
 }
