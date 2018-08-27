@@ -82,7 +82,31 @@ void printCommonPart(ListNode* head1, ListNode* head2)
     cout << endl;
 }
 
-
+//单链表中删除倒数第K个节点
+ListNode* removeLastKthNode(ListNode* head, int k)
+{
+    if(head == NULL || k < 1)
+        return NULL;
+    ListNode* pNode = head;
+    while(pNode != NULL)
+    {
+        --k;
+        pNode = pNode->next;
+    }
+    if(k == 0)
+        return head->next;
+    else if(k < 0)
+    {
+        pNode = head;
+        while(k + 1 != 0)
+        {
+            pNode = pNode->next;
+            ++k;
+        }
+        pNode->next = pNode->next->next;
+    }
+    return head;
+}
 
 int main()
 {
@@ -109,6 +133,8 @@ int main()
 	printListNode(node1);
 	printListNode(node6);
     printCommonPart(node1, node6);
+    removeLastKthNode(node1, 2);
+    printListNode(node1);
 	system("pause");
     return 1;
 }
