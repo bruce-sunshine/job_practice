@@ -48,6 +48,7 @@ def removeLastKthNode(head, k):
         cur.next = cur.next.next
     return head
 
+#删除链表中间节点
 def removeMidNode(head):
     if head == None or head.next == None:
         return head
