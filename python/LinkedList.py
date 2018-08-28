@@ -1,8 +1,9 @@
 #!/usr/bin/python 
 #-*- coding:utf-8 -*-
-
+from __future__ import division
 import math
 import random
+
 
 class Node:
     def __init__(self, val = None):
@@ -62,6 +63,26 @@ def removeMidNode(head):
     pre.next = pre.next.next
     return head
 
+def removeByRatio(head, a, b):
+    if head == None or a < 1 or a > b:
+        return head
+    cur = head
+    len = 0
+    while cur:
+        cur = cur.next
+        len += 1
+    print "len = %d" % len
+    n = math.ceil(a / b * len) 
+    print "n = %d" % n 
+    if n == 1:
+        return head.next
+    cur = head
+    while n-1 != 1:
+        cur = cur.next
+        n -= 1
+    cur.next = cur.next.next
+    return head
+    
 
 
 if __name__ == '__main__':
@@ -82,7 +103,8 @@ if __name__ == '__main__':
     # printCommonPart(t1, t2)
     # print "After remove Last 2th Node, is "
     # head =  removeLastKthNode(t1, 2)
-    head = removeMidNode(t2)
+    # head = removeMidNode(t2)
+    head = removeByRatio(t2, 2, 5)
     while head != None:
         print(head.val)
         head = head.next
