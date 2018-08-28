@@ -126,6 +126,31 @@ ListNode* removeMidNode(ListNode* head)
     return head;
 }
 
+ListNode* removeByRatio(ListNode* head, int a, int b)
+{
+    if(head == NULL || a < 1 || a > b)
+    {
+        return head;
+    }
+    int len = 0;
+    ListNode* cur = head;
+    while(cur != NULL)
+    {
+        ++len;
+        cur = cur->next;
+    }
+    int n = ((double)a / (double)b) * len;
+    cout << "n = " << n << endl;
+    cur = head;
+    while(n - 1 != 1)
+    {
+        cur = cur->next;
+        --n;
+    }
+    cur->next = cur->next->next;
+    return head;
+}
+
 int main()
 {
     ListNode* node1 = new ListNode(1);
@@ -154,6 +179,7 @@ int main()
     removeLastKthNode(node1, 2);
     printListNode(node1);
     removeMidNode(node6);
+    removeByRatio(node6, 2, 4);
     printListNode(node6);
 	system("pause");
     return 1;
