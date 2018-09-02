@@ -83,7 +83,29 @@ def removeByRatio(head, a, b):
     cur.next = cur.next.next
     return head
     
+#反转单向和双向链表
+def reverseList(head):
+    if head == None:
+        return
+    pre = None
+    while head != None:
+        next = head.next
+        head.next = pre
+        pre = head
+        head = next
+    return pre
 
+def reverseDoubleList(head):
+    if head == None:
+        return
+    pre = None
+    while head != None:
+        next = head.next
+        head.pre = next
+        head.next = pre
+        pre = head
+        head = next
+    return pre
 
 if __name__ == '__main__':
     arr1 = [1,3,4,5,7]
@@ -104,7 +126,8 @@ if __name__ == '__main__':
     # print "After remove Last 2th Node, is "
     # head =  removeLastKthNode(t1, 2)
     # head = removeMidNode(t2)
-    head = removeByRatio(t2, 2, 5)
+    # head = removeByRatio(t2, 2, 5)
+    head = reverseList(t2)
     while head != None:
         print(head.val)
         head = head.next

@@ -140,7 +140,6 @@ ListNode* removeByRatio(ListNode* head, int a, int b)
         cur = cur->next;
     }
     int n = ((double)a / (double)b) * len;
-    cout << "n = " << n << endl;
     cur = head;
     while(n - 1 != 1)
     {
@@ -149,6 +148,40 @@ ListNode* removeByRatio(ListNode* head, int a, int b)
     }
     cur->next = cur->next->next;
     return head;
+}
+
+//反转单向链表和双向链表
+ListNode* reverseList(ListNode* head)
+{
+    if(head == NULL)
+        return NULL;
+    ListNode* pre = NULL;
+    ListNode* next;
+    while(head != NULL)
+    {
+        next = head->next;
+        head->next = pre;
+        pre = head;
+        head = next;
+    }
+    return pre;
+}
+
+DoubleListNode* reverseDoubleList(DoubleListNode* head)
+{
+    if(head == NULL)
+        return NULL;
+    DoubleListNode* pre = NULL;
+    DoubleListNode* next;
+    while(head != NULL)
+    {
+        next = head->next;
+        head->pre = next;
+        head->next = pre;
+        pre = head;
+        head = next;
+    }
+    return pre;
 }
 
 int main()
@@ -173,14 +206,15 @@ int main()
     node8->next = node9;
     node9->next = node10;
     node10->next = NULL;
-	printListNode(node1);
-	printListNode(node6);
-    printCommonPart(node1, node6);
-    removeLastKthNode(node1, 2);
-    printListNode(node1);
-    removeMidNode(node6);
-    removeByRatio(node6, 2, 4);
-    printListNode(node6);
+//	printListNode(node1);
+//	printListNode(node6);
+//  printCommonPart(node1, node6);
+//  removeLastKthNode(node1, 2);
+//  printListNode(node1);
+//  removeMidNode(node6);
+//  removeByRatio(node6, 2, 4);
+//	reverseList(node6);
+    printListNode(reverseList(node6));
 	system("pause");
     return 1;
 }
