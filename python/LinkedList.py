@@ -107,6 +107,34 @@ def reverseDoubleList(head):
         head = next
     return pre
 
+def reversePart(head, start, end):
+    if head == None or head.next == None:
+        return head
+    fPre = None
+    tPos = None
+    node1 = head
+    len = 0
+    while node1 != None: #找出需反转的起始节点的前一个节点，和结束节点的后一个节点
+        len += 1
+        fPre = node1 if len == start - 1 else fPre
+        tPos = node1 if len == end + 1 else tPos
+        node1 = node1.next
+    if start > end or start < 1 or end > len:
+        return head
+    node1 = head if fPre == None else fPre.next
+    node2 = node1.next
+    node1.next = tPos
+    next = None
+    while node2 != tPos:
+        next = node2.next
+        node2.next = node1
+        node1 = node2
+        node2 = next
+    if fPre != None:
+        fPre.next = node1
+        return head
+    return node1
+
 if __name__ == '__main__':
     arr1 = [1,3,4,5,7]
     arr2 = [3,4,5,6,8]
@@ -127,7 +155,8 @@ if __name__ == '__main__':
     # head =  removeLastKthNode(t1, 2)
     # head = removeMidNode(t2)
     # head = removeByRatio(t2, 2, 5)
-    head = reverseList(t2)
+    # head = reverseList(t2)
+    head = reversePart(t2, 2, 4)
     while head != None:
         print(head.val)
         head = head.next

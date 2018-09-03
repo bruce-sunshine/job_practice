@@ -184,6 +184,43 @@ DoubleListNode* reverseDoubleList(DoubleListNode* head)
     return pre;
 }
 
+//反转部分单向列表
+ListNode* reversePart(ListNode* head, int start, int end)
+{
+    if(head == NULL || head->next == NULL)
+        return head;
+    int len = 0;
+    ListNode* fPre = NULL;
+    ListNode* tPos = NULL;
+    ListNode* node1 = head;
+    while(node1 != NULL)
+    {
+        ++len;
+        fPre = (len == start - 1 ? node1 : fPre);
+        tPos = (len == end + 1 ? node1 : tPos);
+        node1 = node1->next;
+    }
+    if(start < 1 || start > end || end > len)
+        return head;
+    node1 = (fPre == NULL ? head : fPre->next);
+    ListNode* node2 = node1->next;
+    node1->next = tPos;
+    ListNode* next;
+    while(node2 != tPos)
+    {
+        next = node2->next;
+        node2->next = node1;
+        node1 = node2;
+        node2 = next;
+    }
+    if(fPre != NULL)
+    {
+        fPre->next = node1;
+        return head;
+    }
+    return node1;
+}
+
 int main()
 {
     ListNode* node1 = new ListNode(1);
@@ -214,7 +251,8 @@ int main()
 //  removeMidNode(node6);
 //  removeByRatio(node6, 2, 4);
 //	reverseList(node6);
-    printListNode(reverseList(node6));
+    // printListNode(reverseList(node6));
+    printListNode(reversePart(node6, 2, 4));
 	system("pause");
     return 1;
 }
