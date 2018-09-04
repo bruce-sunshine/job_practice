@@ -107,6 +107,7 @@ def reverseDoubleList(head):
         head = next
     return pre
 
+#反转部分链表
 def reversePart(head, start, end):
     if head == None or head.next == None:
         return head
@@ -135,6 +136,44 @@ def reversePart(head, start, end):
         return head
     return node1
 
+#环形单链表的约瑟夫问题
+def josephusKill1(head, m):
+    if head == None or head.next == None or m < 1:
+        return head
+    pre = head
+    while pre.next != head:
+        pre = pre.next
+    count = 1
+    while head != pre:
+        if count != m:
+            count += 1
+            head = head.next
+            pre = pre.next
+        else:
+            pre.next = head.next
+            head = pre.next
+            count = 1
+    return head
+
+def josephusKill2(head, m):
+    def getLive(n, m):
+        if n == 1:
+            return 1
+        return (getLive(n-1, m) + m - 1) % n + 1
+    if head == None or head.next == None or m < 1:
+        return head
+    n = 1
+    cur = head
+    while cur.next != head:
+        n += 1
+        cur = cur.next
+    n = getLive(n, m)
+    while n - 1 != 0:
+        n -= 1
+        head = head.next
+    head.next = head
+    return head
+
 if __name__ == '__main__':
     arr1 = [1,3,4,5,7]
     arr2 = [3,4,5,6,8]
@@ -156,7 +195,10 @@ if __name__ == '__main__':
     # head = removeMidNode(t2)
     # head = removeByRatio(t2, 2, 5)
     # head = reverseList(t2)
-    head = reversePart(t2, 2, 4)
+    # head = reversePart(t2, 2, 4)
+    test2.next = t2
+    # head = josephusKill1(t2, 2)
+    head = josephusKill2(t2, 2)
     while head != None:
         print(head.val)
         head = head.next

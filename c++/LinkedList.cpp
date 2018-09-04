@@ -221,6 +221,61 @@ ListNode* reversePart(ListNode* head, int start, int end)
     return node1;
 }
 
+//环形单链表的约瑟夫问题
+ListNode* josephusKill1(ListNode* head, int m)
+{
+    if(head == NULL || head->next == NULL || m < 1)
+        return head;
+    ListNode* pre = head;
+    while(pre->next != head)
+        pre = pre->next;
+    int count = 1;
+    while(head != pre)
+    {
+        if(count != m)
+        {
+            head = head->next;
+            pre = pre->next;
+            ++count;
+        }
+        else
+        {
+            pre->next = head->next;
+            head = pre->next;
+            count = 1;
+        }
+    }
+    return head;
+}
+
+int getLive(int n, int m)
+{
+    if(n == 1)
+        return 1;
+    return (getLive(n - 1, m) + m - 1) % n + 1;
+}
+
+ListNode* josephusKill2(ListNode* head, int m)
+{
+    if(head == NULL || head->next == NULL || m < 1)
+        return head;
+    int n = 1;
+    ListNode* cur = head;
+    while(cur->next != head)
+    {
+        ++n;
+        cur = cur->next;
+    }
+    n = getLive(n, m);
+    while(n - 1 != 0)
+    {
+        --n;
+        head = head->next;
+    }
+    head->next = head;
+    return head;
+}
+
 int main()
 {
     ListNode* node1 = new ListNode(1);
@@ -242,7 +297,7 @@ int main()
     node7->next = node8;
     node8->next = node9;
     node9->next = node10;
-    node10->next = NULL;
+//    node10->next = NULL;
 //	printListNode(node1);
 //	printListNode(node6);
 //  printCommonPart(node1, node6);
@@ -252,7 +307,10 @@ int main()
 //  removeByRatio(node6, 2, 4);
 //	reverseList(node6);
     // printListNode(reverseList(node6));
-    printListNode(reversePart(node6, 2, 4));
+    // printListNode(reversePart(node6, 2, 4));
+	node10->next = node6;
+    // josephusKill1(node6,2);
+    josephusKill2(node6,2);
 	system("pause");
     return 1;
 }
