@@ -174,8 +174,74 @@ def josephusKill2(head, m):
     head.next = head
     return head
 
+#判断一个链表是否为回文结构
+def isPalindrome1(head):
+    if head == None or head.next == None:
+        return True
+    cur = head
+    stack = []
+    while cur != None:
+        stack.append(cur)
+        cur = cur.next 
+    while stack:
+        if stack.pop().val != head.val:
+            return False
+        head = head.next
+    return True 
+
+def isPalindrome2(head):
+    if head == None or head.next == None:
+        return True
+    pre = head
+    cur = head
+    while cur.next != None and cur.next.next != None:
+        pre = pre.next
+        cur = cur.next.next
+    stack = []
+    while pre != None:
+        stack.append(pre)
+        pre = pre.next
+    while stack:
+        if stack.pop().val != head.val:
+            return False
+        head = head.next
+    return True
+
+def isPalindrome3(head):
+    if head == None or head.next == None:
+        return True
+    pre = head
+    cur = head
+    while cur.next != None and cur.next.next != None:
+        pre = pre.next
+        cur = cur.next.next
+    node = pre.next
+    node_pre = None
+    while node != None:
+        next = node.next
+        node.next = node_pre
+        node_pre = node
+        node = next
+    res = True
+    node = node_pre
+    while node_pre != None and head != None:
+        if node_pre.val != head.val:
+            res = False
+            break
+        node_pre = node_pre.next
+        head = head.next
+    pre = node.next
+    node.next = None
+    while pre != None:
+        next = pre.next
+        pre.next = node
+        node = pre
+        pre = next
+    return res
+
+
 if __name__ == '__main__':
-    arr1 = [1,3,4,5,7]
+    arr1 = [1,3,4,3,1]
     arr2 = [3,4,5,6,8]
     test1 = Node()
     t1 = test1
@@ -196,9 +262,13 @@ if __name__ == '__main__':
     # head = removeByRatio(t2, 2, 5)
     # head = reverseList(t2)
     # head = reversePart(t2, 2, 4)
-    test2.next = t2
+    # test2.next = t2
     # head = josephusKill1(t2, 2)
-    head = josephusKill2(t2, 2)
+    # head = josephusKill2(t2, 2)
+    # print isPalindrome1(t1)
+    # print isPalindrome2(t1)
+    print isPalindrome3(t1)
+    head = t1
     while head != None:
         print(head.val)
         head = head.next
