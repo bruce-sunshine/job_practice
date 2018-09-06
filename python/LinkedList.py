@@ -239,6 +239,40 @@ def isPalindrome3(head):
         pre = next
     return res
 
+#将单向链表按某值划分成左边小，中间相等，右边大的形式
+def listPartition(head, pivot):
+    def partition(nodeArr, pivot):
+        left = -1
+        right = len(nodeArr)
+        index = 0
+        while index < right:
+            if nodeArr[index].val < pivot:
+                left += 1
+                nodeArr[left], nodeArr[index] = nodeArr[index], nodeArr[left]
+                index += 1
+            elif nodeArr[index].val == pivot:
+                index += 1
+            else:
+                right -= 1
+                nodeArr[index], nodeArr[right] = nodeArr[right], nodeArr[index]
+
+    if head == None or head.next == None:
+        return head
+    cur = head
+    n = 0
+    while cur != None:
+        n += 1
+        cur = cur.next
+    nodeArr = []
+    cur = head
+    while cur != None:
+        nodeArr.append(cur)
+        cur = cur.next
+    partition(nodeArr, pivot)
+    for i in range(n - 1):
+        nodeArr[i].next = nodeArr[i + 1]
+    nodeArr[-1].next = None
+    return nodeArr[0]
 
 if __name__ == '__main__':
     arr1 = [1,3,4,3,1]
@@ -267,8 +301,8 @@ if __name__ == '__main__':
     # head = josephusKill2(t2, 2)
     # print isPalindrome1(t1)
     # print isPalindrome2(t1)
-    print isPalindrome3(t1)
-    head = t1
+    # print isPalindrome3(t1)
+    head = listPartition(t1, 3)
     while head != None:
         print(head.val)
         head = head.next
