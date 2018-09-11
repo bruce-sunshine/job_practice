@@ -1,5 +1,7 @@
 #include <iostream>
 #include <math.h>
+#include <vector>
+#include <stack>
 #include <algorithm>
 using namespace std;
 
@@ -276,6 +278,131 @@ ListNode* josephusKill2(ListNode* head, int m)
     return head;
 }
 
+//判断链表是否为回文结构
+bool isPalindrome1(ListNode* head)
+{
+    if(head == NULL || head->next == NULL)
+        return true;
+    stack<ListNode> stk;
+    ListNode* cur = head;
+    while(cur !=NULL)
+    {
+        stk.push(*cur);
+        cur = cur->next;
+    }
+    while(!stk.empty())
+    {
+        if(stk.top().val != head->val)
+            return false;
+        stk.pop();
+        head = head->next;
+    }
+    return true;
+}
+
+bool isPalindrome2(ListNode* head)
+{
+    if(head == NULL || head->next == NULL)
+        return true;
+    ListNode* pre = head;
+    ListNode* cur = head;
+    while(cur->next !=NULL && cur->next->next != NULL)
+    {
+        pre = pre->next;
+        cur = cur->next->next;
+    }
+    ListNode* node = pre->next;
+    pre->next = NULL;
+    ListNode* next;
+    while(node != NULL)
+    {
+        next = node->next;
+        node->next = pre;
+        pre = node;
+        node = next;
+    }
+    node = pre;
+    bool res = true;
+    while(pre != NULL && head != NULL)
+    {
+        if(pre->val != head->val)
+        {
+            res = false;
+            break;
+        }
+        pre = pre->next;
+        head = head->next;
+    }
+    pre = node->next;
+    node->next = NULL;
+    while(pre != NULL)
+    {
+        next = pre->next;
+        pre->next = node;
+        node = pre;
+        pre = next;
+    }
+    return res;
+}
+
+//将单向链表按某值划分为左边小，中间相等，右边大的形式
+void partiton(vector<ListNode> &arr, int pivot)
+{
+    int left = -1;
+    int right = arr.size();
+    int index = 0;
+    ListNode temp;
+    while(index < right)
+    {
+        if(arr[index].val < pivot)
+        {
+            ++left;
+            temp = arr[left];
+            arr[left] = arr[index];
+            arr[index] = temp;
+            ++index;
+        }
+        else if(arr[index].val == pivot)
+        {
+            ++index;
+        }
+        else
+        {
+            --right;
+            temp = arr[right];
+            arr[right] = arr[index];
+            arr[index] = temp;
+        }
+    }
+}
+vector<ListNode> nodeArr;
+ListNode* listPartition(ListNode* head, int pivot)
+{
+    if(head == NULL || head->next == NULL)
+        return head;
+    ListNode* cur = head;
+    int len = 0;
+    while(cur != NULL)
+    {
+        ++len;
+        cur = cur->next;
+    }
+    cur = head;
+//    vector<ListNode> nodeArr;
+    while(cur != NULL)
+    {
+        nodeArr.push_back(*cur);
+        cur = cur->next;
+    }
+    partiton(nodeArr, pivot); 
+    for(int i = 0; i < len - 1; i++)
+    {
+        nodeArr[i].next = &nodeArr[i+1];
+    }
+    nodeArr[len-1].next = NULL;
+    return &nodeArr[0];
+}
+
 int main()
 {
     ListNode* node1 = new ListNode(1);
@@ -308,9 +435,11 @@ int main()
 //	reverseList(node6);
     // printListNode(reverseList(node6));
     // printListNode(reversePart(node6, 2, 4));
-	node10->next = node6;
-    // josephusKill1(node6,2);
-    josephusKill2(node6,2);
+	// node10->next = node6;
+    // // josephusKill1(node6,2);
+    // josephusKill2(node6,2);
+//    cout << "List is Palindrome ? " << isPalindrome2(node1) << endl;
+    printListNode(listPartition(node1, 5));
 	system("pause");
     return 1;
 }
