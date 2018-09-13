@@ -403,6 +403,59 @@ ListNode* listPartition(ListNode* head, int pivot)
     return &nodeArr[0];
 }
 
+ListNode* addList(ListNode* head1, ListNode* head2)
+{
+    if(head1 == NULL || head2 == NULL)
+    {
+        exit(-1);
+    }
+    stack<int> stk1;
+    stack<int> stk2;
+    while(head1 != NULL)
+    {
+        stk1.push(head1->val);
+        head1 = head1->next;
+    }
+    while(head2 != NULL)
+    {
+        stk2.push(head2->val);
+        head2 = head2->next;
+    }
+    int carry = 0;
+    int num1, num2, sum;
+    ListNode* pre = NULL;
+    ListNode* node;
+    while(!stk1.empty() || !stk2.empty())
+    {
+        if(!stk1.empty())
+        {
+            num1 = stk1.top();
+            stk1.pop();
+        }
+        else
+            num1 = 0;
+        if(!stk2.empty())
+        {
+            num2 = stk2.top();
+            stk2.pop();
+        }
+        else
+            num2 = 0;
+        sum = num1 + num2 + carry;
+        node = new ListNode(sum % 10);
+        node->next = pre;
+        pre = node;
+        carry = sum / 10;
+    }
+    if(carry == 1)
+    {
+        node = new ListNode(1);
+        node->next = pre;
+        pre = node;
+    }
+    return pre;
+}
+
 int main()
 {
     ListNode* node1 = new ListNode(1);
@@ -439,7 +492,8 @@ int main()
     // // josephusKill1(node6,2);
     // josephusKill2(node6,2);
 //    cout << "List is Palindrome ? " << isPalindrome2(node1) << endl;
-    printListNode(listPartition(node1, 5));
+    // printListNode(listPartition(node1, 5));
+    printListNode(addList(node1, node6));
 	system("pause");
     return 1;
 }

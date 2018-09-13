@@ -274,6 +274,61 @@ def listPartition(head, pivot):
     nodeArr[-1].next = None
     return nodeArr[0]
 
+
+def addList1(head1, head2):
+    if head1 == None or head2 == None:
+        raise Exception("Input error!")
+    s1 = []
+    s2 = []
+    while head1 != None:
+        s1.append(head1.val)
+        head1 = head1.next
+    while head2 != None:
+        s2.append(head2.val)
+        head2 = head2.next
+    carry = 0
+    pre = None
+    while s1 or s2:
+        num1 = 0 if not s1 else s1.pop()
+        num2 = 0 if not s2 else s2.pop()
+        sum = num1 + num2 + carry
+        node = Node(sum % 10)
+        node.next = pre
+        pre = node
+        carry = sum // 10
+    if carry == 1:
+        node = Node(1)
+        node.next = pre
+        pre = node
+    return pre
+
+
+def addList2(head1, head2):
+    if head1 == None or head2 == None:
+        raise Exception("Input Error!")
+    head1 = reverseList(head1)
+    head2 = reverseList(head2)
+    pre1 = head1
+    pre2 = head2
+    pre = None
+    carry = 0
+    while pre1 != None or pre2 != None:
+        sum = pre1.val + pre2.val + carry
+        node = Node(sum % 10)
+        node.next = pre
+        pre = node
+        carry = sum // 10
+        pre1 = pre1.next
+        pre2 = pre2.next
+    if carry == 1:
+        node = Node(1)
+        node.next = pre
+        pre = node
+    reverseList(head1)
+    reverseList(head2)
+    return pre
+
+
 if __name__ == '__main__':
     arr1 = [1,3,4,3,1]
     arr2 = [3,4,5,6,8]
@@ -302,7 +357,8 @@ if __name__ == '__main__':
     # print isPalindrome1(t1)
     # print isPalindrome2(t1)
     # print isPalindrome3(t1)
-    head = listPartition(t1, 3)
+    # head = listPartition(t1, 3)
+    head = addList2(t1, t2)
     while head != None:
         print(head.val)
         head = head.next
