@@ -2,6 +2,7 @@
 #include <math.h>
 #include <vector>
 #include <stack>
+#include<unordered_set>
 #include <algorithm>
 using namespace std;
 
@@ -456,12 +457,36 @@ ListNode* addList(ListNode* head1, ListNode* head2)
     return pre;
 }
 
+//删除无序单链表中值重复出现的节点
+void removeRepeatNode(ListNode* head)
+{
+    if(head == NULL || head->next == NULL)
+        return;
+	unordered_set<int> hashSet;
+    ListNode* pre = head;
+    ListNode* cur = head->next;
+    ListNode* next;
+    hashSet.insert(head->val);
+    while(cur != NULL)
+    {
+        next = cur->next;
+        if(hashSet.find(cur->val) == hashSet.end())
+        {
+            pre = cur;
+            hashSet.insert(cur->val);
+        }
+        else
+            pre->next = next;
+        cur = next;
+    }
+}
+
 int main()
 {
     ListNode* node1 = new ListNode(1);
     ListNode* node2 = new ListNode(3);
     ListNode* node3 = new ListNode(4);
-    ListNode* node4 = new ListNode(5);
+    ListNode* node4 = new ListNode(4);
     ListNode* node5 = new ListNode(7);
     ListNode* node6 = new ListNode(3);
     ListNode* node7 = new ListNode(4);
@@ -493,7 +518,9 @@ int main()
     // josephusKill2(node6,2);
 //    cout << "List is Palindrome ? " << isPalindrome2(node1) << endl;
     // printListNode(listPartition(node1, 5));
-    printListNode(addList(node1, node6));
+    // printListNode(addList(node1, node6));
+    removeRepeatNode(node1);
+    printListNode(node1);
 	system("pause");
     return 1;
 }

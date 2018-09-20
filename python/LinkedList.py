@@ -329,6 +329,25 @@ def addList2(head1, head2):
     return pre
 
 
+#删除无序单链表中值重复出现的节点
+def removeRepeatNode(head):
+    if head == None or head.next == None:
+        return head
+    hashSet = set()
+    pre = head
+    cur = head.next
+    hashSet.add(head.val)
+    while cur != None:
+        next = cur.next
+        if cur.val not in hashSet:
+            hashSet.add(cur.val)
+            pre = cur
+        else:
+            pre.next = next
+        cur = next
+
+
+
 if __name__ == '__main__':
     arr1 = [1,3,4,3,1]
     arr2 = [3,4,5,6,8]
@@ -358,7 +377,9 @@ if __name__ == '__main__':
     # print isPalindrome2(t1)
     # print isPalindrome3(t1)
     # head = listPartition(t1, 3)
-    head = addList2(t1, t2)
+    # head = addList2(t1, t2)
+    removeRepeatNode(t1)
+    head = t1
     while head != None:
         print(head.val)
         head = head.next
