@@ -481,11 +481,68 @@ void removeRepeatNode(ListNode* head)
     }
 }
 
+ListNode* getSmallestPre(ListNode* head)
+{
+    if(head == NULL)
+        return NULL;
+    ListNode* pre = head;
+    ListNode* smallest = head;
+    ListNode* smallPre = NULL;
+    head = head->next;
+    while(head != NULL)
+    {
+        if(head->val < smallest->val)
+        {
+            smallest = head;
+            smallPre = pre;
+        }
+        pre = head;
+        head = head->next;
+    }
+    return smallPre;
+}
+
+ListNode* selectionSort(ListNode* head)
+{
+    if(head == NULL || head->next == NULL)
+        return head;
+    ListNode* tail = NULL;
+    ListNode* newHead = NULL;
+    ListNode* cur = head;
+    ListNode* small = NULL;
+    ListNode* smallPre;
+    while(cur != NULL)
+    {
+        smallPre = getSmallestPre(cur);
+        if(smallPre != NULL)
+        {
+            small = smallPre->next;
+            smallPre->next = small->next;
+        }
+        else
+        {
+            small = cur;
+            cur = cur->next;
+        }
+        if(tail == NULL)
+        {
+            tail = small;
+            newHead = tail;
+        }
+        else
+        {
+            tail->next = small;
+            tail = small;
+        }
+    }
+    return newHead;
+}
+
 int main()
 {
     ListNode* node1 = new ListNode(1);
     ListNode* node2 = new ListNode(3);
-    ListNode* node3 = new ListNode(4);
+    ListNode* node3 = new ListNode(6);
     ListNode* node4 = new ListNode(4);
     ListNode* node5 = new ListNode(7);
     ListNode* node6 = new ListNode(3);
@@ -519,8 +576,9 @@ int main()
 //    cout << "List is Palindrome ? " << isPalindrome2(node1) << endl;
     // printListNode(listPartition(node1, 5));
     // printListNode(addList(node1, node6));
-    removeRepeatNode(node1);
-    printListNode(node1);
+    // removeRepeatNode(node1);
+    // printListNode(node1);
+    printListNode(selectionSort(node1));
 	system("pause");
     return 1;
 }

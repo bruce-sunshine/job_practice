@@ -346,7 +346,46 @@ def removeRepeatNode(head):
             pre.next = next
         cur = next
 
+#单链表的选择排序
+def selectionSort(head):
+    def getSmallestPre(head):
+        if head == None:
+            return None
+        pre = head
+        smallest = head
+        smallPre = None
+        head = head.next
+        while head != None:
+            if head.val < smallest.val:
+                smallest = head
+                smallPre = pre
+            pre = head
+            head = head.next
+        return smallPre
+    
+    if head == None or head.next == None:
+        return head
+    tail = None
+    newHead = None
+    cur = head
+    small = None
+    while cur != None:
+        smallPre = getSmallestPre(cur) #获取最小节点的前一个节点，方便删除节点
+        if smallPre != None:
+            small = smallPre.next
+            smallPre.next = small.next
+        else:
+            small = cur
+            cur = cur.next
+        if tail == None:
+            tail = small
+            newHead = tail
+        else:
+            tail.next = small
+            tail = small
+    return newHead
 
+    
 
 if __name__ == '__main__':
     arr1 = [1,3,4,3,1]
@@ -378,8 +417,9 @@ if __name__ == '__main__':
     # print isPalindrome3(t1)
     # head = listPartition(t1, 3)
     # head = addList2(t1, t2)
-    removeRepeatNode(t1)
-    head = t1
+    # removeRepeatNode(t1)
+    # head = t1
+    head = selectionSort(t1)
     while head != None:
         print(head.val)
         head = head.next
