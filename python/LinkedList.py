@@ -385,11 +385,56 @@ def selectionSort(head):
             tail = small
     return newHead
 
-    
+#向有环的环形链表中插入新节点
+def inSertNum(head, num):
+    node = Node(num)
+    if head == None:
+        node.next = node
+        return node
+    pre = head
+    cur = head.next
+    while cur != head:
+        if pre.val < num and num < cur.val:
+            break
+        pre = cur
+        cur = cur.next
+    pre.next = node
+    node.next = cur
+    return head if head.val < num else node
+
+#合并两个有序的单链表
+def mergeTwoLinks(head1, head2):
+    if head1 == None or head2 == None:
+        return head1 if head2 == None else head2
+    cur1 = head1
+    cur2 = head2
+    head = head1 if head1.val < head2.val else head2
+    pre = None
+    while cur1 != None and cur2 != None:
+        if cur1.val <= cur2.val:
+            if pre == None:
+                pre = cur1
+            else:
+                pre.next = cur1
+                pre = cur1
+            cur1 = cur1.next
+        else:
+            if pre == None:
+                pre = cur2
+            else:
+                pre.next = cur2
+                pre = cur2
+            cur2 = cur2.next
+    if cur1 != None:
+        pre.next = cur1
+    if cur2 != None:
+        pre.next = cur2
+    return head
+
 
 if __name__ == '__main__':
-    arr1 = [1,3,4,3,1]
-    arr2 = [3,4,5,6,8]
+    arr1 = [1,3,5,7,9]
+    arr2 = [2,4,6,8,10]
     test1 = Node()
     t1 = test1
     test2 = Node()
@@ -419,7 +464,10 @@ if __name__ == '__main__':
     # head = addList2(t1, t2)
     # removeRepeatNode(t1)
     # head = t1
-    head = selectionSort(t1)
+    # head = selectionSort(t1)
+    # test2.next = t2
+    # head = inSertNum(t2, 7)
+    head = mergeTwoLinks(t1, t2)
     while head != None:
         print(head.val)
         head = head.next
