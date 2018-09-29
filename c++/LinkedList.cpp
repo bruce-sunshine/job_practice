@@ -538,18 +538,96 @@ ListNode* selectionSort(ListNode* head)
     return newHead;
 }
 
+//合并两个有序的单链表
+ListNode* mergeTwoLinks(ListNode* head1, ListNode* head2)
+{
+    if(head1 == NULL || head2 == NULL)
+    {
+        if(head1 == NULL)
+            return head2;
+        if(head2 == NULL)
+            return head1;
+    }
+    ListNode* head;
+    if(head1->val <= head2->val)
+        head = head1;
+    else
+        head = head2;
+    ListNode* cur1 = head1;
+    ListNode* cur2 = head2;
+    ListNode* pre = NULL;
+    while(cur1 != NULL && cur2 != NULL)
+    {
+        if(cur1->val <= cur2->val)
+        {
+            if(pre == NULL)
+                pre = cur1;
+            else
+            {
+                pre->next = cur1;
+                pre = cur1;
+            }
+            cur1 = cur1->next;
+        }
+        else
+        {
+            if(pre == NULL)
+                pre = cur2;
+            else
+            {
+                pre->next = cur2;
+                pre = cur2;
+            }
+            cur2 = cur2->next;
+        }
+    }
+    if(cur1 != NULL)
+        pre->next = cur1;
+    if(cur2 != NULL)
+        pre->next = cur2;
+    return head;
+}
+
+// 按照左右半区的方式重新组合单链表
+ListNode* reCombination(ListNode* head)
+{
+    if(head == NULL || head->next == NULL)
+        return head;
+    ListNode* mid = head;
+    ListNode* right = head->next;
+    while(right->next != NULL && right->next->next != NULL)
+    {
+        mid = mid->next;
+        right = right->next->next;
+    }
+    right = mid->next;
+    mid->next = NULL;
+    ListNode* cur = head;
+    ListNode* right_next;
+    while(cur->next != NULL)
+    {
+        right_next = right->next;
+        right->next = cur->next;
+        cur->next = right;
+        cur = right->next;
+        right = right_next;
+    }
+    cur->next = right;
+    return head;
+}
+
 int main()
 {
     ListNode* node1 = new ListNode(1);
     ListNode* node2 = new ListNode(3);
-    ListNode* node3 = new ListNode(6);
-    ListNode* node4 = new ListNode(4);
-    ListNode* node5 = new ListNode(7);
-    ListNode* node6 = new ListNode(3);
+    ListNode* node3 = new ListNode(5);
+    ListNode* node4 = new ListNode(7);
+    ListNode* node5 = new ListNode(9);
+    ListNode* node6 = new ListNode(2);
     ListNode* node7 = new ListNode(4);
-    ListNode* node8 = new ListNode(5);
-    ListNode* node9 = new ListNode(6);
-    ListNode* node10 = new ListNode(8);
+    ListNode* node8 = new ListNode(6);
+    ListNode* node9 = new ListNode(8);
+    ListNode* node10 = new ListNode(10);
     node1->next = node2;
     node2->next = node3;
     node3->next = node4;
@@ -578,7 +656,9 @@ int main()
     // printListNode(addList(node1, node6));
     // removeRepeatNode(node1);
     // printListNode(node1);
-    printListNode(selectionSort(node1));
+    // printListNode(selectionSort(node1));
+    printListNode(mergeTwoLinks(node1, node6));
+    // printListNode(reCombination(node6));
 	system("pause");
     return 1;
 }

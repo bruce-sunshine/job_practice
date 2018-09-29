@@ -431,6 +431,26 @@ def mergeTwoLinks(head1, head2):
         pre.next = cur2
     return head
 
+#按照左右半区的方式重新组合单链表
+def reCombination(head):
+    if head == None or head.next == None:
+        return head
+    mid = head
+    right = head.next
+    while right != None and right.next.next != None:
+        mid = mid.next
+        right = right.next.next
+    right = mid.next
+    mid.next = None
+    cur = head
+    while cur.next != None:
+        right_next = right.next
+        right.next = cur.next
+        cur.next = right
+        cur = right.next
+        right = right_next
+    cur.next = right
+    return head
 
 if __name__ == '__main__':
     arr1 = [1,3,5,7,9]
@@ -467,7 +487,8 @@ if __name__ == '__main__':
     # head = selectionSort(t1)
     # test2.next = t2
     # head = inSertNum(t2, 7)
-    head = mergeTwoLinks(t1, t2)
+    # head = mergeTwoLinks(t1, t2)
+    head = reCombination(t2)
     while head != None:
         print(head.val)
         head = head.next
