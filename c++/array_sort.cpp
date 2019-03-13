@@ -62,7 +62,7 @@ void select_sort(int array[], int len)
 
 void insert_sort(int array[], int len)
 {
-    for(int i=0; i<len; i++)
+    for(int i=1; i<len; i++)
     {
         int key = array[i];
         int j = i-1;

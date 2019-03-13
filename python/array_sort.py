@@ -32,7 +32,8 @@ def select_sort(array):
         for j in range(i+1, len(array)):
             if array[j] < array[min]:
                 min = j
-        array[i], array[min] = array[min], array[i]
+        if min != i:
+            array[i], array[min] = array[min], array[i]
 
 def insert_sort(array):
     for i in range(1, len(array)):
