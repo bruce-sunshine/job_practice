@@ -51,9 +51,12 @@ void select_sort(int array[], int len)
             if(array[j] < array[min])
                 min = j;
         }
-        int temp = array[min];
-        array[min] = array[i];
-        array[i] = temp;
+        if(min != i)
+        {
+            int temp = array[min];
+            array[min] = array[i];
+            array[i] = temp;
+        }
     }
 }
 
