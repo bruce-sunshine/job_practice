@@ -25,7 +25,7 @@ void quick_sort(int array[], int left, int right)
         return;
     int low = left;
     int high = right;
-    int key = array[low];
+    int key = array[left];
 
     while(low<high)
     {
@@ -34,9 +34,15 @@ void quick_sort(int array[], int left, int right)
         array[low] = array[high]; 
         while(low<high && array[low]<=key)
             ++low; 
-        array[high] = array[low];
+        if(low < right)
+        {
+            int tmp = array[low];
+            array[low] = array[high];
+            array[high] = tmp;
+        }
     }
-    array[high] = key;
+    array[left] = array[low];   //此时low == high
+    array[high] = key;   
     quick_sort(array, 0, low-1);
     quick_sort(array, low+1, right);  
 }
@@ -46,7 +52,7 @@ void select_sort(int array[], int len)
     for(int i=0; i<len-1; i++)
     {
         int min = i;
-        for(int j=i+1; j<len-1; j++)
+        for(int j=i+1; j<len; j++)
         {
             if(array[j] < array[min])
                 min = j;
